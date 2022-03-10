@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Button from "./Button";
-
 import FormInput from "./FormInput";
 import Input from "./Input";
+import Select, { SelectItems } from "./Select";
+
 interface formField {
   id: number;
   label: string;
@@ -15,6 +16,16 @@ const initialFormFields: formField[] = [
   { id: 2, label: "Last Name", type: "text", value: "Singh" },
   { id: 3, label: "Email", type: "email", value: "aakash@example.com" },
   { id: 4, label: "Date of Birth", type: "date", value: "2001-01-01" }
+];
+
+const formFieldTypes: SelectItems[] = [
+  { label: "Text", value: "text" },
+  { label: "Number", value: "number" },
+  { label: "Telephone", value: "tel" },
+  { label: "Email", value: "email" },
+  { label: "Date", value: "date" },
+  { label: "Time", value: "time" },
+  { label: "DateTime Local", value: "datetime-local" }
 ];
 
 export default function Form(props: { closeFormCB: () => void }) {
@@ -84,24 +95,12 @@ export default function Form(props: { closeFormCB: () => void }) {
           placeholder="New Field"
         />
         <div className="mt-4 flex items-center justify-between gap-2">
-          <select
-            name="fieldType"
-            id=""
-            title="fieldType"
-            className="w-full rounded-lg border-2 border-gray-200 bg-white p-2"
+          <Select
             value={newFieldType}
             onChange={(e) => setNewFieldType(e.target.value)}
-          >
-            <option value="text" selected>
-              Text
-            </option>
-            <option value="number">Number</option>
-            <option value="tel">Telephone</option>
-            <option value="email">Email</option>
-            <option value="date">Date</option>
-            <option value="time">Time</option>
-            <option value="datetime-local">DateTime Local</option>
-          </select>
+            name="fieldType"
+            options={formFieldTypes}
+          />
           <Button text="Add Field" onClick={addField} fullWidth />
         </div>
       </div>

@@ -12,6 +12,7 @@ const formFields = [
 export default function Form(props: { closeFormCB: () => void }) {
   const [formState, setFormState] = React.useState(formFields);
   const [newField, setNewField] = React.useState("");
+  const [newFieldType, setNewFieldType] = React.useState("text");
 
   const updateFieldValueCB = (key: number, value: string) => {
     setFormState(
@@ -27,16 +28,15 @@ export default function Form(props: { closeFormCB: () => void }) {
   const addField = () => {
     setFormState([
       ...formState,
-      { id: Number(new Date()), label: newField, type: "text", value: "" }
+      { id: Number(new Date()), label: newField, type: newFieldType, value: "" }
     ]);
     setNewField("");
+    setNewFieldType("text");
   };
 
   const removeFieldCB = (key: number) => {
     setFormState(() => {
-      const newState = formState.filter((item) => item.id !== key);
-      console.table(newState);
-      return newState;
+      return formState.filter((item) => item.id !== key);
     });
   };
 
@@ -75,7 +75,7 @@ export default function Form(props: { closeFormCB: () => void }) {
       ))}
 
       {/* Button to add Form Item */}
-      <div className="mt-8 flex w-full items-center justify-between gap-2 border-t-2 border-dashed border-gray-500 pt-4">
+      <div className="mt-8 w-full border-t-2 border-dashed border-gray-500 pt-4">
         <input
           type="text"
           value={newField}
@@ -85,12 +85,34 @@ export default function Form(props: { closeFormCB: () => void }) {
           className="w-full rounded-lg border-2 border-gray-200 p-2"
           placeholder="Add New Field"
         />
-        <button
-          className="w-full rounded-lg bg-sky-500 p-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300"
-          onClick={addField}
-        >
-          Add Field
-        </button>
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <select
+            name="fieldType"
+            id=""
+            title="fieldType"
+            className="w-full rounded-lg border-2 border-gray-200 bg-white p-2"
+            value={newFieldType}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              setNewFieldType(e.target.value);
+            }}
+          >
+            <option value="text" selected>
+              Text
+            </option>
+            <option value="number">Number</option>
+            <option value="tel">Telephone</option>
+            <option value="email">Email</option>
+            <option value="date">Date</option>
+            <option value="time">Time</option>
+            <option value="datetime-local">DateTime Local</option>
+          </select>
+          <button
+            className="w-full rounded-lg bg-sky-500 p-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300"
+            onClick={addField}
+          >
+            Add Field
+          </button>
+        </div>
       </div>
     </div>
   );

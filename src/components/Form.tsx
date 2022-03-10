@@ -14,7 +14,7 @@ export default function Form(props: { closeFormCB: () => void }) {
   const [newField, setNewField] = React.useState("");
   const [newFieldType, setNewFieldType] = React.useState("text");
 
-  const updateFieldValueCB = (key: number, value: string) => {
+  const updateFieldValue = (key: number, value: string) => {
     setFormState(
       formState.map((item) => {
         if (item.id === key) {
@@ -34,7 +34,7 @@ export default function Form(props: { closeFormCB: () => void }) {
     setNewFieldType("text");
   };
 
-  const removeFieldCB = (key: number) => {
+  const removeField = (key: number) => {
     setFormState(() => {
       return formState.filter((item) => item.id !== key);
     });
@@ -68,8 +68,8 @@ export default function Form(props: { closeFormCB: () => void }) {
       {formState.map((field) => (
         <Input
           key={field.id}
-          updateFieldValueCB={updateFieldValueCB}
-          removeFieldCB={removeFieldCB}
+          updateFieldValueCB={updateFieldValue}
+          removeFieldCB={removeField}
           {...field}
         />
       ))}

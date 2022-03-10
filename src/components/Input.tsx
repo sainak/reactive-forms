@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./Button";
 
 interface InputProps {
   id: number;
@@ -23,12 +24,7 @@ export default function Input(prop: InputProps) {
           placeholder={prop.label}
           value={prop.value}
         />
-        <button
-          className="rounded-lg bg-sky-500 p-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300"
-          onClick={() => prop.removeFieldCB(prop.id)}
-        >
-          Remove
-        </button>
+        <Button text="Remove" onClick={() => prop.removeFieldCB(prop.id)} />
       </div>
     </>
   );

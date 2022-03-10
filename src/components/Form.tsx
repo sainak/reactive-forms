@@ -1,8 +1,16 @@
 import React from "react";
+import Button from "./Button";
 
 import Input from "./Input";
 
-const formFields = [
+interface formField {
+  id: number;
+  label: string;
+  type: string;
+  value: string;
+}
+
+const initialFormFields: formField[] = [
   { id: 1, label: "First Name", type: "text", value: "Aakash" },
   { id: 2, label: "Last Name", type: "text", value: "Singh" },
   { id: 3, label: "Email", type: "email", value: "aakash@example.com" },
@@ -10,7 +18,7 @@ const formFields = [
 ];
 
 export default function Form(props: { closeFormCB: () => void }) {
-  const [formState, setFormState] = React.useState(formFields);
+  const [formState, setFormState] = React.useState(initialFormFields);
   const [newField, setNewField] = React.useState("");
   const [newFieldType, setNewFieldType] = React.useState("text");
 
@@ -51,18 +59,8 @@ export default function Form(props: { closeFormCB: () => void }) {
   return (
     <div className="flex flex-col items-center">
       <div className="flex w-full items-center justify-between gap-2">
-        <button
-          onClick={props.closeFormCB}
-          className="w-full rounded-lg border-4 border-sky-500 p-2 text-center text-black transition duration-300 hover:border-sky-700 hover:bg-sky-700 hover:text-white focus:ring-4 focus:ring-sky-300"
-        >
-          Close Form
-        </button>
-        <button
-          onClick={resetForm}
-          className="w-full rounded-lg border-4 border-sky-500 bg-sky-500 p-2 text-center text-white transition duration-300 hover:border-sky-700 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300"
-        >
-          Reset Form
-        </button>
+        <Button text="Close Form" onClick={props.closeFormCB} fullWidth inverted/>
+        <Button text="Reset Form" onClick={resetForm} fullWidth/>
       </div>
 
       {formState.map((field) => (
@@ -74,7 +72,6 @@ export default function Form(props: { closeFormCB: () => void }) {
         />
       ))}
 
-      {/* Button to add Form Item */}
       <div className="mt-8 w-full border-t-2 border-dashed border-gray-500 pt-4">
         <input
           type="text"
@@ -106,12 +103,7 @@ export default function Form(props: { closeFormCB: () => void }) {
             <option value="time">Time</option>
             <option value="datetime-local">DateTime Local</option>
           </select>
-          <button
-            className="w-full rounded-lg bg-sky-500 p-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300"
-            onClick={addField}
-          >
-            Add Field
-          </button>
+          <Button text="Add Field" onClick={addField} fullWidth/>
         </div>
       </div>
     </div>

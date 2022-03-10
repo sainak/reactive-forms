@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 
+import FormInput from "./FormInput";
 import Input from "./Input";
-
 interface formField {
   id: number;
   label: string;
@@ -18,9 +18,9 @@ const initialFormFields: formField[] = [
 ];
 
 export default function Form(props: { closeFormCB: () => void }) {
-  const [formState, setFormState] = React.useState(initialFormFields);
-  const [newField, setNewField] = React.useState("");
-  const [newFieldType, setNewFieldType] = React.useState("text");
+  const [formState, setFormState] = useState(initialFormFields);
+  const [newField, setNewField] = useState("");
+  const [newFieldType, setNewFieldType] = useState("text");
 
   const updateFieldValue = (key: number, value: string) => {
     setFormState(
@@ -59,12 +59,17 @@ export default function Form(props: { closeFormCB: () => void }) {
   return (
     <div className="flex flex-col items-center">
       <div className="flex w-full items-center justify-between gap-2">
-        <Button text="Close Form" onClick={props.closeFormCB} fullWidth inverted/>
-        <Button text="Reset Form" onClick={resetForm} fullWidth/>
+        <Button
+          text="Close Form"
+          onClick={props.closeFormCB}
+          fullWidth
+          inverted
+        />
+        <Button text="Reset Form" onClick={resetForm} fullWidth />
       </div>
 
       {formState.map((field) => (
-        <Input
+        <FormInput
           key={field.id}
           updateFieldValueCB={updateFieldValue}
           removeFieldCB={removeField}
@@ -73,14 +78,10 @@ export default function Form(props: { closeFormCB: () => void }) {
       ))}
 
       <div className="mt-8 w-full border-t-2 border-dashed border-gray-500 pt-4">
-        <input
-          type="text"
+        <Input
           value={newField}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setNewField(e.target.value)
-          }
-          className="w-full rounded-lg border-2 border-gray-200 p-2"
-          placeholder="Add New Field"
+          onChange={(e) => setNewField(e.target.value)}
+          placeholder="New Field"
         />
         <div className="mt-4 flex items-center justify-between gap-2">
           <select
@@ -89,9 +90,7 @@ export default function Form(props: { closeFormCB: () => void }) {
             title="fieldType"
             className="w-full rounded-lg border-2 border-gray-200 bg-white p-2"
             value={newFieldType}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              setNewFieldType(e.target.value);
-            }}
+            onChange={(e) => setNewFieldType(e.target.value)}
           >
             <option value="text" selected>
               Text
@@ -103,7 +102,7 @@ export default function Form(props: { closeFormCB: () => void }) {
             <option value="time">Time</option>
             <option value="datetime-local">DateTime Local</option>
           </select>
-          <Button text="Add Field" onClick={addField} fullWidth/>
+          <Button text="Add Field" onClick={addField} fullWidth />
         </div>
       </div>
     </div>

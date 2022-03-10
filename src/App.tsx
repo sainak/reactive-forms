@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import AppContainer from "./components/AppContainer";
 import Form from "./components/Form";
@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import Button from "./components/Button";
 
 export default function App() {
-  const [page, setPage] = React.useState("HOME");
+  const [page, setPage] = useState("HOME");
   const openForm = () => setPage("FORM");
   const closeForm = () => setPage("HOME");
 

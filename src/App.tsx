@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import AppContainer from "./components/AppContainer";
 import Form from "./components/Form";
-import Header from "./components/Header";
 import Button from "./components/Button";
 
 export default function App() {
@@ -12,9 +11,6 @@ export default function App() {
 
   return (
     <AppContainer>
-      <Header
-        title={`Welcome to WD301: #react-typescript with #tailwindcss`}
-      />
       {page === "HOME" ? (
         <Button text="Go to Form" onClick={openForm} fullWidth />
       ) : (

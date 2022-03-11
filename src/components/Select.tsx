@@ -18,7 +18,6 @@ interface SelectProps {
 export default function Select(props: SelectProps) {
   return (
     <select
-      id={props.id}
       name={props.name}
       title={props.name}
       className="w-full rounded-lg border-2 border-gray-200 bg-white p-2"

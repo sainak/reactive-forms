@@ -5,13 +5,13 @@ import Form from "./components/Form";
 import Button from "./components/Button";
 
 export default function App() {
-  const [page, setPage] = useState("HOME");
-  const openForm = () => setPage("FORM");
-  const closeForm = () => setPage("HOME");
+  const [form, setForm] = useState(-1);
+  const openForm = () => setForm(0);
+  const closeForm = () => setForm(-1);
 
   return (
     <AppContainer>
-      {page === "HOME" ? (
+      {form === -1 ? (
         <Button text="Go to Form" onClick={openForm} fullWidth />
       ) : (
         <Form closeFormCB={closeForm} />

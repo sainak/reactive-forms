@@ -5,6 +5,7 @@ interface InputProps {
   type?: string;
   placeholder?: string;
   value?: string;
+  ref?: React.RefObject<HTMLInputElement>;
   onChange?: ((e: React.ChangeEvent<HTMLInputElement>) => void) | undefined;
 }
 
@@ -12,6 +13,7 @@ export default function Input({ type = "text", ...props }: InputProps) {
   return (
     <input
       id={props.id}
+      ref={props.ref}
       className="w-full rounded-lg border-2 border-gray-200 p-2"
       type={type}
       onChange={props.onChange}

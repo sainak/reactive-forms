@@ -5,9 +5,7 @@ export default function AppContainer(props: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen items-center overflow-auto bg-gray-100">
       <div className="m-4 mx-auto rounded-xl bg-white p-8 shadow-lg">
-        <Header
-          title={`Welcome to WD301: #react-typescript with #tailwindcss`}
-        />
+        <Header title={`Welcome to WD301: #react-typescript with #tailwindcss`} />
         {props.children}
       </div>
     </div>

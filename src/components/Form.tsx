@@ -70,12 +70,7 @@ export default function Form(props: { closeFormCB: () => void }) {
   return (
     <div className="flex flex-col items-center">
       <div className="flex w-full items-center justify-between gap-2">
-        <Button
-          text="Close Form"
-          onClick={props.closeFormCB}
-          fullWidth
-          inverted
-        />
+        <Button text="Close Form" onClick={props.closeFormCB} fullWidth inverted />
         <Button text="Reset Form" onClick={resetForm} fullWidth />
       </div>
 

@@ -8,6 +8,7 @@ specifiers:
   postcss: ^8.4.7
   prettier: ^2.5.1
   prettier-plugin-tailwindcss: ^0.1.8
+  raviger: ^4.0.0
   react: ^17.0.2
   react-dom: ^17.0.2
   tailwindcss: ^3.0.23
@@ -15,6 +16,7 @@ specifiers:
   vite: ^2.8.0
 
 dependencies:
+  raviger: 4.0.0_react@17.0.2
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
 
@@ -1155,6 +1157,15 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
+
+  /raviger/4.0.0_react@17.0.2:
+    resolution: {integrity: sha512-3r8Yoc+qN8aImO5JRVAOjI2TCQ0hybl88dpblYrJ5DpemEwg2guws5UxN7jIotxdOYooeTJC9KERJB1SRsxbww==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}

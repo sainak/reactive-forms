@@ -30,7 +30,7 @@ export default function FormsList(props: { openFormCB: (id?: number) => void }) 
               className="ml-auto rounded-md bg-red-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700"
               onClick={() => deleteForm(form.id)}
             >
-              <img className="w-6 h-6" src={bin} alt="delete" />
+              <img className="h-6 w-6" src={bin} alt="delete" />
             </button>
           </div>
         ))}

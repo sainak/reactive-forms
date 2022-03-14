@@ -34,5 +34,5 @@ export const updatedForms = (form: FormType) => {
   const filteredLocalForms = localForms.filter(
     (formFilter) => formFilter.id !== form.id
   );
-  return JSON.stringify([...filteredLocalForms, form]);
+  return [...filteredLocalForms, form];
 };

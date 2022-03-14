@@ -1,21 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import Button from "./Button";
-import FormInput, { FormInputType } from "./FormInput";
-import Input from "./Input";
-import Select, { SelectItems } from "./Select";
-
-interface FormType {
-  id: number;
-  label: string;
-  fields: FormInputType[];
-}
-
-const initialFormFields: FormInputType[] = [
-  { id: 1, label: "First Name", type: "text", value: "Aakash" },
-  { id: 2, label: "Last Name", type: "text", value: "Singh" },
-  { id: 3, label: "Email", type: "email", value: "aakash@example.com" },
-  { id: 4, label: "Date of Birth", type: "date", value: "2001-01-01" }
-];
+import Button from "../Button";
+import FormInput from "../FormInput";
+import Input from "../Input";
+import Select, { SelectItems } from "../Select";
+import { FormType } from "./types";
+import { getInitialState, getLocalForms, saveForms, updatedForms } from "./utils";
 
 const formFieldTypes: SelectItems[] = [
   { label: "Text", value: "text" },
@@ -26,35 +15,6 @@ const formFieldTypes: SelectItems[] = [
   { label: "Time", value: "time" },
   { label: "DateTime Local", value: "datetime-local" }
 ];
-
-const getLocalForms = (): FormType[] =>
-  JSON.parse(localStorage.getItem("savedForms") || "[]");
-
-const saveForms = (forms: FormType[]) =>
-  localStorage.setItem("savedForms", JSON.stringify(forms));
-
-const getInitialState = (id?: number) => {
-  const localForms = getLocalForms();
-  if (localForms.length > 0) {
-    const form = localForms.find((form) => form.id === id);
-    if (form) {
-      return form;
-    }
-  }
-  return {
-    id: Number(new Date()),
-    label: `Untitled Form ${localForms.length + 1}`,
-    fields: initialFormFields
-  };
-};
-
-const updatedForms = (form: FormType) => {
-  const localForms = getLocalForms();
-  const filteredLocalForms = localForms.filter(
-    (formFilter: FormType) => formFilter.id !== form.id
-  );
-  return JSON.stringify([...filteredLocalForms, form]);
-};
 
 export default function Form(props: { formId?: number; closeFormCB: () => void }) {
   const [formState, setFormState] = useState<FormType>(getInitialState(props.formId));
@@ -123,7 +83,7 @@ export default function Form(props: { formId?: number; closeFormCB: () => void }
         <Button text="Reset Form" onClick={resetForm} fullWidth />
       </div>
 
-      <div className="flex w-full items-center justify-between gap-2 mt-4">
+      <div className="mt-4 flex w-full items-center justify-between gap-2">
         <Input
           ref={formTitleRef}
           placeholder="Form Title"

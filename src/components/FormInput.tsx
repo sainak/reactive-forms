@@ -2,14 +2,12 @@ import React from "react";
 import Button from "./Button";
 import Input from "./Input";
 
-
 export interface FormInputType {
   id: number;
   label: string;
   type: string;
   value: string;
 }
-
 
 interface FormInputProps extends FormInputType {
   updateFieldValueCB: (key: number, value: string) => void;

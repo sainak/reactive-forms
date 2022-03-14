@@ -50,7 +50,7 @@ export default function Form(props: { formId?: number; closeFormCB: () => void }
   const [newField, setNewField] = useState("");
   const [newFieldType, setNewFieldType] = useState("text");
   const formTitleRef = useRef<HTMLInputElement>(null);
-  const [autoSave, setAutoSave] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
   const saveButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ export default function Form(props: { formId?: number; closeFormCB: () => void }
         </div>
       </div>
       <div className="mt-8 grid w-full grid-cols-2 gap-2">
-        <Button text="Reset Form" onClick={resetForm} fullWidth />
+        <Button text="Reset Form" onClick={resetForm} fullWidth inverted />
         <div className="flex items-center justify-center">
           <label
             htmlFor="autosaveCheckbox"
@@ -174,7 +174,7 @@ export default function Form(props: { formId?: number; closeFormCB: () => void }
             <div className="ml-3 font-medium text-gray-700">Autosave</div>
           </label>
         </div>
-        <Button text="Close Form" onClick={props.closeFormCB} fullWidth inverted />
+        <Button text="Close Form" onClick={props.closeFormCB} fullWidth />
         <button ref={saveButtonRef} onClick={saveAllForms} className="">
           Save
         </button>

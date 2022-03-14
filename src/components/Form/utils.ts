@@ -14,7 +14,7 @@ export const getLocalForms = (): FormType[] =>
 export const saveForms = (forms: FormType[]) =>
   localStorage.setItem("savedForms", JSON.stringify(forms));
 
-export const getInitialState = (id?: number) => {
+export const getInitialState = (id: number) => {
   const localForms = getLocalForms();
   if (localForms.length > 0) {
     const form = localForms.find((form) => form.id === id);
@@ -23,7 +23,7 @@ export const getInitialState = (id?: number) => {
     }
   }
   return {
-    id: Number(new Date()),
+    id: id,
     label: `Untitled Form ${localForms.length + 1}`,
     fields: initialFormFields
   };

@@ -25,8 +25,8 @@ export default function Select(props: SelectProps) {
       onChange={props.onChange}
       defaultValue={props.defaultValue}
     >
-      {props.options.map((item) => (
-        <option id={item.id} value={item.value}>
+      {props.options.map((item, i) => (
+        <option key={i} id={item.id} value={item.value}>
           {item.label}
         </option>
       ))}

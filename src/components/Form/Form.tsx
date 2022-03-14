@@ -45,7 +45,7 @@ const buttonSavedStyles = [
   "focus:ring-green-300"
 ];
 
-export default function Form(props: { formId?: number; closeFormCB: () => void }) {
+export default function Form(props: { formId: number }) {
   const [formState, setFormState] = useState<FormType>(getInitialState(props.formId));
   const [newField, setNewField] = useState("");
   const [newFieldType, setNewFieldType] = useState("text");
@@ -121,7 +121,7 @@ export default function Form(props: { formId?: number; closeFormCB: () => void }
     <div className="flex flex-col items-center">
       <div className="flex w-full items-center justify-between gap-2">
         <Input
-          ref={formTitleRef}
+          innerRef={formTitleRef}
           placeholder="Form Title"
           value={formState.label}
           onChange={(e) => setFormState({ ...formState, label: e.target.value })}
@@ -174,7 +174,7 @@ export default function Form(props: { formId?: number; closeFormCB: () => void }
             <div className="ml-3 font-medium text-gray-700">Autosave</div>
           </label>
         </div>
-        <Button text="Close Form" onClick={props.closeFormCB} fullWidth />
+        <Button text="Close Form" onClick={()=>{window.location.href="/"}} fullWidth />
         <button ref={saveButtonRef} onClick={saveAllForms} className="">
           Save
         </button>

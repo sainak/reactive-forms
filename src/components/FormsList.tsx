@@ -3,7 +3,7 @@ import Button from "./Button";
 import { getLocalForms, saveForms } from "./Form/utils";
 import bin from "../img/bin.svg";
 
-export default function FormsList(props: { openFormCB: (id?: number) => void }) {
+export default function FormsList(props: {}) {
   const [forms, setForms] = useState(getLocalForms());
 
   const deleteForm = (id: number) => {
@@ -20,12 +20,12 @@ export default function FormsList(props: { openFormCB: (id?: number) => void }) 
             key={form.id}
             className="flex  w-full  items-center rounded-lg p-2 hover:bg-sky-200"
           >
-            <span
+            <a
               className="h-full w-full cursor-pointer text-lg"
-              onClick={() => props.openFormCB(form.id)}
+              href={`/form/${form.id}`}
             >
               {form.label}
-            </span>
+            </a>
             <button
               className="ml-auto rounded-md bg-red-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700"
               onClick={() => deleteForm(form.id)}
@@ -35,7 +35,13 @@ export default function FormsList(props: { openFormCB: (id?: number) => void }) 
           </div>
         ))}
       </div>
-      <Button text="New Form" onClick={props.openFormCB} fullWidth />
+      <Button
+        text="New Form"
+        onClick={() => {
+          window.location.href = `/form/${Number(new Date())}`;
+        }}
+        fullWidth
+      />
     </>
   );
 }

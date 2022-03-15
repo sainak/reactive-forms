@@ -1,4 +1,4 @@
-import logo from "../img/logo.svg"
+import { ReactComponent as Logo } from "../img/logo.svg"
 
 const routes = [
   {
@@ -16,7 +16,7 @@ const routes = [
 export default function Header() {
   return (
     <div className="mb-4 flex items-center gap-6">
-      <img className="h-16 w-16 animate-spin-slow" src={logo} alt="logo" />
+      <Logo className="h-16 w-16 animate-spin-slow" />
       <div className="flex gap-2">
         {routes.map((route) => (
           <a

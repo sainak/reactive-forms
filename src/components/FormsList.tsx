@@ -1,15 +1,20 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useQueryParams } from "raviger"
 import Button from "./Button"
 import { getLocalForms, saveForms } from "./Form/utils"
 import { ReactComponent as BinIcon } from "../img/bin.svg"
 import { ReactComponent as SearchIcon } from "../img/search.svg"
-import Input from "./Input"
 
 export default function FormsList(props: {}) {
   const [forms, setForms] = useState(getLocalForms())
   const [{ search }, setQuery] = useQueryParams()
   const [searchString, setSearchString] = useState(search)
+
+  const deleteForm = (id: number) => {
+    const filteredLocalForms = forms.filter((formFilter) => formFilter.id !== id)
+    setForms(filteredLocalForms)
+    saveForms(filteredLocalForms)
+  }
 
   const filterForms = (search?: string) => {
     if (!search) return forms
@@ -18,11 +23,11 @@ export default function FormsList(props: {}) {
     })
   }
 
-  const deleteForm = (id: number) => {
-    const filteredLocalForms = forms.filter((formFilter) => formFilter.id !== id)
-    setForms(filteredLocalForms)
-    saveForms(filteredLocalForms)
-  }
+  let filteredForms = filterForms(searchString)
+
+  useEffect(() => {
+    filteredForms = filterForms(searchString)
+  }, [searchString])
 
   return (
     <>
@@ -42,12 +47,13 @@ export default function FormsList(props: {}) {
               value={searchString}
               id="id_search"
               placeholder="Search"
+              autoComplete="off"
             />
           </div>
         </form>
       </div>
       <div className="mb-4 flex flex-col gap-2">
-        {filterForms(search).map((form) => (
+        {filteredForms.map((form) => (
           <div
             key={form.id}
             className=" flex w-full items-center rounded-lg p-2 hover:bg-sky-200"

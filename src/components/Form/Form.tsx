@@ -43,7 +43,8 @@ export default function Form(props: { formId: number | string }) {
   useEffect(() => {
     const oldTitle = document.title
     document.title = "Form Editor"
-    formState.id !== props.formId && navigate(`/form/${formState.id}`)
+    formState.id !== props.formId &&
+      navigate(`/form/${formState.id}`, { replace: true })
     formTitleRef.current?.focus()
     return () => {
       document.title = oldTitle

@@ -6,8 +6,8 @@ import { ReactComponent as SearchIcon } from "../img/search.svg"
 
 export default function FormsList(props: {}) {
   const [forms, setForms] = useState(getLocalForms())
-  const [{ search }, setQuery] = useQueryParams(() => ({ search: "" }))
-  const [searchString, setSearchString] = useState(search)
+  const [{ search }, setQuery] = useQueryParams()
+  const [searchString, setSearchString] = useState(() => search ?? "")
 
   const deleteForm = (id: number) => {
     const filteredLocalForms = forms.filter((formFilter) => formFilter.id !== id)

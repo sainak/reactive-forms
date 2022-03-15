@@ -14,9 +14,10 @@ export const getLocalForms = (): FormType[] =>
 export const saveForms = (forms: FormType[]) =>
   localStorage.setItem("savedForms", JSON.stringify(forms))
 
-export const getInitialState = (id: any) => {
+export const getInitialState = (id: number) => {
   const localForms = getLocalForms()
-  if (id instanceof Number && localForms.length > 0) {
+  if (!isNaN(id) && localForms.length > 0) {
+    id = Number(id)
     const form = localForms.find((form) => form.id === id)
     if (form) {
       return form

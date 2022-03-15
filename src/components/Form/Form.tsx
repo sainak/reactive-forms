@@ -31,7 +31,7 @@ const buttonStyle = (color: string) => [
   `focus:ring-${color}-300` // focus:ring-yellow-300 focus:ring-green-300
 ]
 
-export default function Form(props: { formId: number | string }) {
+export default function Form(props: { formId: number }) {
   const [formState, setFormState] = useState<FormType>(() =>
     getInitialState(props.formId)
   )

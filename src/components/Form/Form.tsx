@@ -16,33 +16,18 @@ const formFieldTypes: SelectItems[] = [
   { label: "DateTime Local", value: "datetime-local" }
 ]
 
-const buttonStyles = [
+const buttonStyle = (color: string) => [
   "w-full",
   "rounded-lg",
   "text-white",
-  "border-4",
   "px-5",
   "py-1",
-  "text-center",
   "transition",
   "duration-300",
-  "focus:ring-4"
-]
-
-const buttonUnsavedStyles = [
-  "hover:border-yellow-700",
-  "hover:bg-yellow-700",
-  "border-yellow-500",
-  "bg-yellow-500",
-  "focus:ring-yellow-300"
-]
-
-const buttonSavedStyles = [
-  "hover:border-green-700",
-  "hover:bg-green-700",
-  "border-green-500",
-  "bg-green-500",
-  "focus:ring-green-300"
+  "focus:ring-4",
+  `hover:bg-${color}-700`,
+  `bg-${color}-500`,
+  `focus:ring-${color}-300`
 ]
 
 export default function Form(props: { formId: number }) {
@@ -73,13 +58,11 @@ export default function Form(props: { formId: number }) {
 
   const saveAllForms = useCallback(() => {
     saveForms(updatedForms(formState))
-    saveButtonRef.current!.className =
-      buttonStyles.join(" ") + " " + buttonSavedStyles.join(" ")
+    saveButtonRef.current!.className = buttonStyle("green").join(" ")
   }, [formState])
 
   useEffect(() => {
-    saveButtonRef.current!.className =
-      buttonStyles.join(" ") + " " + buttonUnsavedStyles.join(" ")
+    saveButtonRef.current!.className = buttonStyle("yellow").join(" ")
     if (formState.autoSave) {
       let timeout = setTimeout(() => {
         saveAllForms()

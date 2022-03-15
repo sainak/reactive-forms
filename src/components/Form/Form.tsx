@@ -139,13 +139,13 @@ export default function Form(props: { formId: number }) {
         <Button text="Reset Form" onClick={resetForm} fullWidth inverted />
         <div className="flex items-center justify-center">
           <label
-            htmlFor="autosaveCheckbox"
+            htmlFor="autoSaveCheckbox"
             className="flex cursor-pointer items-center"
           >
             <div className="relative">
               <input
                 type="checkbox"
-                id="autosaveCheckbox"
+                id="autoSaveCheckbox"
                 checked={formState.autoSave}
                 onChange={(e) =>
                   setFormState({ ...formState, autoSave: e.target.checked })

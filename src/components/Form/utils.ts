@@ -26,7 +26,7 @@ export const getInitialState = (id: number) => {
   return {
     id: Number(new Date()),
     label: `Untitled Form ${localForms.length + 1}`,
-    autoSave: false,
+    autoSave: true,
     fields: initialFormFields
   }
 }

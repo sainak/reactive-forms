@@ -15,14 +15,14 @@ const routes = [
 
 export default function Header() {
   return (
-    <div className="flex items-center gap-6 mb-4">
+    <div className="mb-4 flex items-center gap-6">
       <img className="h-16 w-16 animate-spin-slow" src={logo} alt="logo" />
-      <div className="flex gap-2 w-[30rem]">
+      <div className="flex gap-2">
         {routes.map((route) => (
           <a
             key={route.id}
             href={route.url}
-            className="capitalize rounded-full border-2 px-4 py-2"
+            className="rounded-full border-2 px-4 py-2 capitalize"
           >
             {route.page}
           </a>

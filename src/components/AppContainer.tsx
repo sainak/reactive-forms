@@ -3,8 +3,8 @@ import Header from "./Header";
 
 export default function AppContainer(props: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen items-center overflow-auto bg-gray-100">
-      <div className="m-4 mx-auto rounded-xl bg-white p-8 shadow-lg">
+    <div className="flex min-h-screen overflow-auto bg-gray-100 md:items-center">
+      <div className="mx-auto w-full bg-white p-8 md:m-4 md:w-3/4 md:rounded-xl md:shadow-lg lg:w-[42rem]">
         <Header />
         {props.children}
       </div>

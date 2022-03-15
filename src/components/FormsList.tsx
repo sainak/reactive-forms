@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { Link, navigate, useQueryParams } from "raviger"
-import Button from "./Button"
 import { getLocalForms, saveForms } from "./Form/utils"
 import { ReactComponent as BinIcon } from "../img/bin.svg"
 import { ReactComponent as SearchIcon } from "../img/search.svg"
@@ -27,10 +26,12 @@ export default function FormsList(props: {}) {
 
   useEffect(() => {
     filteredForms = filterForms(searchString)
-    navigate("/", {
-      replace: true,
-      query: { search: searchString }
-    })
+    /*if (searchString) {
+      navigate("/", {
+        replace: true,
+        query: { search: searchString }
+      })
+    } */
   }, [searchString])
 
   return (

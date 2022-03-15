@@ -50,7 +50,6 @@ export default function Form(props: { formId: number }) {
   const [newField, setNewField] = useState("")
   const [newFieldType, setNewFieldType] = useState("text")
   const formTitleRef = useRef<HTMLInputElement>(null)
-  const [autoSave, setAutoSave] = useState(true)
   const saveButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -81,13 +80,13 @@ export default function Form(props: { formId: number }) {
   useEffect(() => {
     saveButtonRef.current!.className =
       buttonStyles.join(" ") + " " + buttonUnsavedStyles.join(" ")
-    if (autoSave) {
+    if (formState.autoSave) {
       let timeout = setTimeout(() => {
         saveAllForms()
       }, 1000)
       return () => clearTimeout(timeout)
     }
-  }, [formState, autoSave, saveAllForms])
+  }, [formState, saveAllForms])
 
   const addField = () => {
     const newFields = [
@@ -164,8 +163,10 @@ export default function Form(props: { formId: number }) {
               <input
                 type="checkbox"
                 id="autosaveCheckbox"
-                checked={autoSave}
-                onChange={(e) => setAutoSave(e.target.checked)}
+                checked={formState.autoSave}
+                onChange={(e) =>
+                  setFormState({ ...formState, autoSave: e.target.checked })
+                }
                 className="sr-only"
               />
               <div className="block h-8 w-14 rounded-full bg-gray-600"></div>

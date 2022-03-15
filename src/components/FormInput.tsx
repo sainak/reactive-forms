@@ -1,17 +1,17 @@
-import React from "react";
-import Button from "./Button";
-import Input from "./Input";
+import React from "react"
+import Button from "./Button"
+import Input from "./Input"
 
 export interface FormInputType {
-  id: number;
-  label: string;
-  type: string;
-  value: string;
+  id: number
+  label: string
+  type: string
+  value: string
 }
 
 interface FormInputProps extends FormInputType {
-  updateFieldValueCB: (key: number, value: string) => void;
-  removeFieldCB: (key: number) => void;
+  updateFieldValueCB: (key: number, value: string) => void
+  removeFieldCB: (key: number) => void
 }
 
 export default function FormInput(props: FormInputProps) {
@@ -28,5 +28,5 @@ export default function FormInput(props: FormInputProps) {
         <Button text="Remove" onClick={() => props.removeFieldCB(props.id)} />
       </div>
     </>
-  );
+  )
 }

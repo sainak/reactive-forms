@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Button from "../Button";
-import FormInput from "../FormInput";
-import Input from "../Input";
-import Select, { SelectItems } from "../Select";
-import { FormType } from "./types";
-import { getInitialState, saveForms, updatedForms } from "./utils";
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import Button from "../Button"
+import FormInput from "../FormInput"
+import Input from "../Input"
+import Select, { SelectItems } from "../Select"
+import { FormType } from "./types"
+import { getInitialState, saveForms, updatedForms } from "./utils"
 
 const formFieldTypes: SelectItems[] = [
   { label: "Text", value: "text" },
@@ -14,7 +14,7 @@ const formFieldTypes: SelectItems[] = [
   { label: "Date", value: "date" },
   { label: "Time", value: "time" },
   { label: "DateTime Local", value: "datetime-local" }
-];
+]
 
 const buttonStyles = [
   "w-full",
@@ -27,7 +27,7 @@ const buttonStyles = [
   "transition",
   "duration-300",
   "focus:ring-4"
-];
+]
 
 const buttonUnsavedStyles = [
   "hover:border-yellow-700",
@@ -35,7 +35,7 @@ const buttonUnsavedStyles = [
   "border-yellow-500",
   "bg-yellow-500",
   "focus:ring-yellow-300"
-];
+]
 
 const buttonSavedStyles = [
   "hover:border-green-700",
@@ -43,79 +43,79 @@ const buttonSavedStyles = [
   "border-green-500",
   "bg-green-500",
   "focus:ring-green-300"
-];
+]
 
 export default function Form(props: { formId: number }) {
-  const [formState, setFormState] = useState<FormType>(getInitialState(props.formId));
-  const [newField, setNewField] = useState("");
-  const [newFieldType, setNewFieldType] = useState("text");
-  const formTitleRef = useRef<HTMLInputElement>(null);
-  const [autoSave, setAutoSave] = useState(true);
-  const saveButtonRef = useRef<HTMLButtonElement>(null);
+  const [formState, setFormState] = useState<FormType>(getInitialState(props.formId))
+  const [newField, setNewField] = useState("")
+  const [newFieldType, setNewFieldType] = useState("text")
+  const formTitleRef = useRef<HTMLInputElement>(null)
+  const [autoSave, setAutoSave] = useState(true)
+  const saveButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    const oldTitle = document.title;
-    document.title = "Form Editor";
-    formTitleRef.current?.focus();
+    const oldTitle = document.title
+    document.title = "Form Editor"
+    formTitleRef.current?.focus()
     return () => {
-      document.title = oldTitle;
-    };
-  }, []);
+      document.title = oldTitle
+    }
+  }, [])
 
   const updateFieldValue = (key: number, value: string) => {
     const newFields = formState.fields.map((field) => {
       if (field.id === key) {
-        return { ...field, value };
+        return { ...field, value }
       }
-      return field;
-    });
-    setFormState({ ...formState, fields: newFields });
-  };
+      return field
+    })
+    setFormState({ ...formState, fields: newFields })
+  }
 
   const saveAllForms = useCallback(() => {
-    saveForms(updatedForms(formState));
+    saveForms(updatedForms(formState))
     saveButtonRef.current!.className =
-      buttonStyles.join(" ") + " " + buttonSavedStyles.join(" ");
-  }, [formState]);
+      buttonStyles.join(" ") + " " + buttonSavedStyles.join(" ")
+  }, [formState])
 
   useEffect(() => {
     saveButtonRef.current!.className =
-      buttonStyles.join(" ") + " " + buttonUnsavedStyles.join(" ");
+      buttonStyles.join(" ") + " " + buttonUnsavedStyles.join(" ")
     if (autoSave) {
       let timeout = setTimeout(() => {
-        saveAllForms();
-      }, 1000);
-      return () => clearTimeout(timeout);
+        saveAllForms()
+      }, 1000)
+      return () => clearTimeout(timeout)
     }
-  }, [formState, autoSave, saveAllForms]);
+  }, [formState, autoSave, saveAllForms])
 
   const addField = () => {
     const newFields = [
       ...formState.fields,
       { id: Number(new Date()), label: newField, type: newFieldType, value: "" }
-    ];
-    setFormState({ ...formState, fields: newFields });
-    setNewField("");
-    setNewFieldType("text");
-  };
+    ]
+    setFormState({ ...formState, fields: newFields })
+    setNewField("")
+    setNewFieldType("text")
+  }
 
   const removeField = (key: number) => {
-    const newFields = formState.fields.filter((field) => field.id !== key);
+    const newFields = formState.fields.filter((field) => field.id !== key)
     setFormState({
       ...formState,
       fields: newFields
-    });
-  };
+    })
+  }
 
   const resetForm = () => {
     const newFields = formState.fields.map((field) => {
-      return { ...field, value: "" };
-    });
+      return { ...field, value: "" }
+    })
     setFormState({
       ...formState,
       fields: newFields
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -174,11 +174,17 @@ export default function Form(props: { formId: number }) {
             <div className="ml-3 font-medium text-gray-700">Autosave</div>
           </label>
         </div>
-        <Button text="Close Form" onClick={()=>{window.location.href="/"}} fullWidth />
+        <Button
+          text="Close Form"
+          onClick={() => {
+            window.location.href = "/"
+          }}
+          fullWidth
+        />
         <button ref={saveButtonRef} onClick={saveAllForms} className="">
           Save
         </button>
       </div>
     </div>
-  );
+  )
 }

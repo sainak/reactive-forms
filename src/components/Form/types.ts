@@ -1,7 +1,7 @@
-import { FormInputType } from "../FormInput";
+import { FormInputType } from "../FormInput"
 
 export interface FormType {
-  id: number;
-  label: string;
-  fields: FormInputType[];
+  id: number
+  label: string
+  fields: FormInputType[]
 }

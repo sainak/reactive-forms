@@ -1,6 +1,6 @@
 {
-  "rewrites":  [
-    {"source": "/about", "destination": "/"},
-    {"source": "/form/(.*)", "destination": "/"}
+  "rewrites": [
+    { "source": "/about", "destination": "/" },
+    { "source": "/form/(.*)", "destination": "/" }
   ]
 }

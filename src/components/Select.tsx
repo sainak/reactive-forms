@@ -1,18 +1,18 @@
-import React from "react";
+import React from "react"
 
 export interface SelectItems {
-  id?: string;
-  label: string;
-  value: string;
+  id?: string
+  label: string
+  value: string
 }
 
 interface SelectProps {
-  id?: string;
-  value?: string;
-  name: string;
-  defaultValue?: string;
-  onChange?: ((e: React.ChangeEvent<HTMLSelectElement>) => void) | undefined;
-  options: SelectItems[];
+  id?: string
+  value?: string
+  name: string
+  defaultValue?: string
+  onChange?: ((e: React.ChangeEvent<HTMLSelectElement>) => void) | undefined
+  options: SelectItems[]
 }
 
 export default function Select(props: SelectProps) {
@@ -31,5 +31,5 @@ export default function Select(props: SelectProps) {
         </option>
       ))}
     </select>
-  );
+  )
 }

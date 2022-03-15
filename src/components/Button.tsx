@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
 interface ButtonProps {
-  text: string;
-  onClick: () => void;
-  fullWidth?: boolean;
-  inverted?: boolean;
-  children?: React.ReactNode;
+  text: string
+  onClick: () => void
+  fullWidth?: boolean
+  inverted?: boolean
+  children?: React.ReactNode
 }
 
 export default function Button({
@@ -22,5 +22,5 @@ export default function Button({
     >
       {props.children} {props.text}
     </button>
-  );
+  )
 }

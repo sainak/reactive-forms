@@ -1,6 +1,10 @@
-import AppRouter from "./AppRouter";
-import AppContainer from "./components/AppContainer";
+import AppRouter from "./AppRouter"
+import AppContainer from "./components/AppContainer"
 
 export default function App() {
-  return <AppContainer><AppRouter /></AppContainer>;
+  return (
+    <AppContainer>
+      <AppRouter />
+    </AppContainer>
+  )
 }

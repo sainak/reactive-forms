@@ -1,4 +1,4 @@
-import logo from "../img/logo.svg";
+import logo from "../img/logo.svg"
 
 const routes = [
   {
@@ -11,7 +11,7 @@ const routes = [
     page: "About",
     url: "/about"
   }
-];
+]
 
 export default function Header() {
   return (
@@ -29,5 +29,5 @@ export default function Header() {
         ))}
       </div>
     </div>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import React from "react";
-import Header from "./Header";
+import React from "react"
+import Header from "./Header"
 
 export default function AppContainer(props: { children: React.ReactNode }) {
   return (
@@ -9,5 +9,5 @@ export default function AppContainer(props: { children: React.ReactNode }) {
         {props.children}
       </div>
     </div>
-  );
+  )
 }

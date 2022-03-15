@@ -14,16 +14,16 @@ export const getLocalForms = (): FormType[] =>
 export const saveForms = (forms: FormType[]) =>
   localStorage.setItem("savedForms", JSON.stringify(forms))
 
-export const getInitialState = (id: number) => {
+export const getInitialState = (id: any) => {
   const localForms = getLocalForms()
-  if (localForms.length > 0) {
+  if (id instanceof Number && localForms.length > 0) {
     const form = localForms.find((form) => form.id === id)
     if (form) {
       return form
     }
   }
   return {
-    id: id,
+    id: Number(new Date()),
     label: `Untitled Form ${localForms.length + 1}`,
     autoSave: false,
     fields: initialFormFields

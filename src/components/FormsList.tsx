@@ -32,7 +32,14 @@ export default function FormsList(props: {}) {
   return (
     <>
       <div>
-        <form action="" method="get">
+        <form
+          action=""
+          method="get"
+          onSubmit={(e) => {
+            e.preventDefault()
+            setQuery({ search: searchString })
+          }}
+        >
           <div className="relative mb-4">
             <button type="submit" title="search">
               <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -80,7 +87,7 @@ export default function FormsList(props: {}) {
       <Button
         text="New Form"
         onClick={() => {
-          window.location.href = `/form/${Number(new Date())}`
+          window.location.href = "/form/new"
         }}
         fullWidth
       />

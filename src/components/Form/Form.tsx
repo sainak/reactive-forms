@@ -1,3 +1,4 @@
+import { navigate } from "raviger"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import Button from "../Button"
 import FormInput from "../FormInput"
@@ -31,7 +32,9 @@ const buttonStyle = (color: string) => [
 ]
 
 export default function Form(props: { formId: number | string }) {
-  const [formState, setFormState] = useState<FormType>(getInitialState(props.formId))
+  const [formState, setFormState] = useState<FormType>(() =>
+    getInitialState(props.formId)
+  )
   const [newField, setNewField] = useState("")
   const [newFieldType, setNewFieldType] = useState("text")
   const formTitleRef = useRef<HTMLInputElement>(null)
@@ -40,11 +43,12 @@ export default function Form(props: { formId: number | string }) {
   useEffect(() => {
     const oldTitle = document.title
     document.title = "Form Editor"
+    formState.id !== props.formId && navigate(`/form/${formState.id}`)
     formTitleRef.current?.focus()
     return () => {
       document.title = oldTitle
     }
-  }, [])
+  }, [formState.id, props.formId])
 
   const updateFieldValue = (key: number, value: string) => {
     const newFields = formState.fields.map((field) => {

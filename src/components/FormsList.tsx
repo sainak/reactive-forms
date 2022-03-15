@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useQueryParams } from "raviger"
+import { navigate, useQueryParams } from "raviger"
 import Button from "./Button"
 import { getLocalForms, saveForms } from "./Form/utils"
 import { ReactComponent as BinIcon } from "../img/bin.svg"
@@ -7,7 +7,7 @@ import { ReactComponent as SearchIcon } from "../img/search.svg"
 
 export default function FormsList(props: {}) {
   const [forms, setForms] = useState(getLocalForms())
-  const [{ search }, setQuery] = useQueryParams()
+  const [{ search }, setQuery] = useQueryParams(() => ({ search: "" }))
   const [searchString, setSearchString] = useState(search)
 
   const deleteForm = (id: number) => {
@@ -27,6 +27,10 @@ export default function FormsList(props: {}) {
 
   useEffect(() => {
     filteredForms = filterForms(searchString)
+    navigate("/", {
+      replace: true,
+      query: { search: searchString }
+    })
   }, [searchString])
 
   return (
@@ -38,6 +42,7 @@ export default function FormsList(props: {}) {
           onSubmit={(e) => {
             e.preventDefault()
             setQuery({ search: searchString })
+            navigate("/", { query: { search: searchString } })
           }}
         >
           <div className="relative mb-4">

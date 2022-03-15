@@ -1,4 +1,4 @@
-import { Link } from "raviger"
+import { ActiveLink } from "raviger"
 import { ReactComponent as Logo } from "../img/logo.svg"
 
 const routes = [
@@ -20,13 +20,14 @@ export default function Header() {
       <Logo className="h-16 w-16 animate-spin-slow" />
       <div className="flex gap-2">
         {routes.map((route) => (
-          <Link
+          <ActiveLink
             key={route.id}
             href={route.url}
-            className="rounded-full border-2 px-4 py-2 capitalize"
+            className="rounded-full border-2 px-4 py-2 capitalize transition-colors duration-300 hover:bg-sky-600 hover:text-white"
+            exactActiveClass="bg-sky-500 text-white"
           >
             {route.page}
-          </Link>
+          </ActiveLink>
         ))}
       </div>
     </div>

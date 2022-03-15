@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { navigate, useQueryParams } from "raviger"
+import { Link, navigate, useQueryParams } from "raviger"
 import Button from "./Button"
 import { getLocalForms, saveForms } from "./Form/utils"
 import { ReactComponent as BinIcon } from "../img/bin.svg"
@@ -70,7 +70,7 @@ export default function FormsList(props: {}) {
             key={form.id}
             className=" flex w-full items-center rounded-lg p-2 hover:bg-sky-200"
           >
-            <a
+            <Link
               className="h-full w-full cursor-pointer px-4 text-lg"
               href={`/form/${form.id}`}
             >
@@ -78,7 +78,7 @@ export default function FormsList(props: {}) {
               <span className="block text-sm text-gray-500">
                 {form.fields.length} questions
               </span>
-            </a>
+            </Link>
             <button
               className="ml-auto rounded-lg bg-red-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700 "
               onClick={() => deleteForm(form.id)}
@@ -89,13 +89,12 @@ export default function FormsList(props: {}) {
           </div>
         ))}
       </div>
-      <Button
-        text="New Form"
-        onClick={() => {
-          window.location.href = "/form/new"
-        }}
-        fullWidth
-      />
+      <Link
+        href="/form/new"
+        className="block w-full rounded-lg bg-sky-500 px-5 py-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 "
+      >
+        New Form
+      </Link>
     </>
   )
 }

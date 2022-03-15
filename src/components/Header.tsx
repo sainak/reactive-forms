@@ -1,3 +1,4 @@
+import { Link } from "raviger"
 import { ReactComponent as Logo } from "../img/logo.svg"
 
 const routes = [
@@ -19,13 +20,13 @@ export default function Header() {
       <Logo className="h-16 w-16 animate-spin-slow" />
       <div className="flex gap-2">
         {routes.map((route) => (
-          <a
+          <Link
             key={route.id}
             href={route.url}
             className="rounded-full border-2 px-4 py-2 capitalize"
           >
             {route.page}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

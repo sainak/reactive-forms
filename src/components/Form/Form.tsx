@@ -1,4 +1,4 @@
-import { navigate } from "raviger"
+import { Link, navigate } from "raviger"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import Button from "../Button"
 import FormInput from "../FormInput"
@@ -163,13 +163,12 @@ export default function Form(props: { formId: number }) {
             <div className="ml-3 font-medium text-gray-700">Autosave</div>
           </label>
         </div>
-        <Button
-          text="Close Form"
-          onClick={() => {
-            window.location.href = "/"
-          }}
-          fullWidth
-        />
+        <Link
+          href="/"
+          className="block w-full rounded-lg bg-sky-500 px-5 py-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 "
+        >
+          Close Form
+        </Link>
         <button ref={saveButtonRef} onClick={saveAllForms} className="">
           Save
         </button>

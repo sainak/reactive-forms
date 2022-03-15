@@ -26,9 +26,9 @@ const buttonStyle = (color: string) => [
   "transition",
   "duration-300",
   "focus:ring-4",
-  `hover:bg-${color}-700`,
-  `bg-${color}-500`,
-  `focus:ring-${color}-300`
+  `hover:bg-${color}-700`, // hover:bg-yellow-700 hover:bg-green-700
+  `bg-${color}-500`, // bg-yellow-500 bg-green-500
+  `focus:ring-${color}-300` // focus:ring-yellow-300 focus:ring-green-300
 ]
 
 export default function Form(props: { formId: number | string }) {

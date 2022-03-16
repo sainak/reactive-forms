@@ -26,12 +26,17 @@ export default function FormsList(props: {}) {
 
   useEffect(() => {
     filteredForms = filterForms(searchString)
-    /*if (searchString) {
-      navigate("/", {
-        replace: true,
-        query: { search: searchString }
-      })
-    } */
+    let timeout = setTimeout(() => {
+      if (searchString) {
+        navigate("/", {
+          replace: true,
+          query: { search: searchString }
+        })
+      } else {
+        navigate("/", { replace: true })
+      }
+    }, 1500)
+    return () => clearTimeout(timeout)
   }, [searchString])
 
   return (

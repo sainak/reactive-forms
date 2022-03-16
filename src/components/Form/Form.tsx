@@ -61,6 +61,16 @@ export default function Form(props: { formId: number }) {
     setFormState({ ...formState, fields: newFields })
   }
 
+  const updateFieldQuestion = (key: number, value: string) => {
+    const newFields = formState.fields.map((field) => {
+      if (field.id === key) {
+        return { ...field, label: value }
+      }
+      return field
+    })
+    setFormState({ ...formState, fields: newFields })
+  }
+
   const saveAllForms = useCallback(() => {
     saveForms(updatedForms(formState))
     saveButtonRef.current!.className = buttonStyle("green").join(" ")
@@ -116,12 +126,18 @@ export default function Form(props: { formId: number }) {
       </div>
 
       {formState.fields.map((field) => (
-        <FormInput
-          key={field.id}
-          updateFieldValueCB={updateFieldValue}
-          removeFieldCB={removeField}
-          {...field}
-        />
+        <>
+          <div className="mt-4 mb-2 flex w-full items-end gap-2">
+            <span className="mr-auto font-bold text-gray-600 ">Type: {field.type}</span>
+            <Button text="Remove" onClick={() => removeField(field.id)} />
+          </div>
+          <Input
+            key={field.id}
+            value={field.label}
+            placeholder="Question"
+            onChange={(e) => updateFieldQuestion(field.id, e.target.value)}
+          />
+        </>
       ))}
 
       <div className="mt-8 w-full border-t-2 border-dashed border-gray-500 pt-4">

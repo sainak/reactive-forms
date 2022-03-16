@@ -1,7 +1,7 @@
 import { useRoutes } from "raviger"
 
 import About from "./components/About"
-import Form from "./components/Form"
+import Form from "./components/Form/FormBuilder"
 import FormsList from "./components/FormsList"
 
 const routes = {

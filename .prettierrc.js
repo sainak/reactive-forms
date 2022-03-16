@@ -4,5 +4,8 @@ module.exports = {
   semi: false,
   singleQuote: false,
   printWidth: 88,
-  plugins: [require.resolve("prettier-plugin-tailwindcss")]
+  plugins: [
+    require.resolve("prettier-plugin-tailwindcss"),
+    require.resolve("prettier-plugin-organize-imports")
+  ]
 }

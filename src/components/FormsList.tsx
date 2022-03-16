@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react"
 import { Link, navigate, useQueryParams } from "raviger"
-import { getLocalForms, saveForms } from "./Form/utils"
+import React, { useEffect, useState } from "react"
 import { ReactComponent as BinIcon } from "../img/bin.svg"
 import { ReactComponent as SearchIcon } from "../img/search.svg"
+import { getLocalForms, saveForms } from "../utils/formUtils"
 
 export default function FormsList(props: {}) {
   const [forms, setForms] = useState(getLocalForms())

@@ -1,5 +1,4 @@
-import { FormInputType } from "../FormInput"
-import { FormType } from "./types"
+import { FormInputType, FormType } from "../types/formTypes"
 
 const initialFormFields: FormInputType[] = [
   { id: 1, label: "First Name", type: "text", value: "Aakash" },

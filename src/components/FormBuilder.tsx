@@ -1,11 +1,10 @@
 import { Link, navigate } from "raviger"
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import Button from "../Button"
-import FormInput from "../FormInput"
-import Input from "../Input"
-import Select, { SelectItems } from "../Select"
-import { FormType } from "./types"
-import { getInitialState, saveForms, updatedForms } from "./utils"
+import { FormType } from "../types/formTypes"
+import { getInitialState, saveForms, updatedForms } from "../utils/formUtils"
+import Button from "./Button"
+import Input from "./Input"
+import Select, { SelectItems } from "./Select"
 
 const formFieldTypes: SelectItems[] = [
   { label: "Text", value: "text" },
@@ -31,7 +30,7 @@ const buttonStyle = (color: string) => [
   `focus:ring-${color}-300` // focus:ring-yellow-300 focus:ring-green-300
 ]
 
-export default function Form(props: { formId: number }) {
+export default function FormBuilder(props: { formId: number }) {
   const [formState, setFormState] = useState<FormType>(() =>
     getInitialState(props.formId)
   )

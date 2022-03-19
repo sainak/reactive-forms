@@ -29,7 +29,7 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
 
   const submitForm = () => {
     saveQuizForm({ ...quizState, answered: true })
-    navigate(`/preview/${quizState.id}`)
+    navigate(`/preview/${quizState.id}`, { replace: true })
   }
 
   if (!quizState.id) {

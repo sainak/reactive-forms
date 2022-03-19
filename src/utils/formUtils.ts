@@ -1,11 +1,4 @@
-import { FormInputType, FormQuizType, FormType } from "../types/formTypes"
-
-const initialFormFields: FormInputType[] = [
-  { id: 1, label: "First Name", type: "text", value: "Aakash" },
-  { id: 2, label: "Last Name", type: "text", value: "Singh" },
-  { id: 3, label: "Email", type: "email", value: "aakash@example.com" },
-  { id: 4, label: "Date of Birth", type: "date", value: "2001-01-01" }
-]
+import { FormQuizType, FormType } from "../types/formTypes"
 
 export const getLocalForms = (): FormType[] =>
   JSON.parse(localStorage.getItem("savedForms") || "[]")
@@ -26,7 +19,7 @@ export const getInitialState = (id: number) => {
     id: Number(new Date()),
     label: `Untitled Form ${localForms.length + 1}`,
     autoSave: true,
-    fields: initialFormFields
+    fields: []
   }
 }
 

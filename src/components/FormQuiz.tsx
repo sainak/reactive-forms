@@ -4,7 +4,7 @@ import { ReactComponent as CircleIcon } from "../img/circle.svg"
 import { FormQuizType } from "../types/formTypes"
 import { loadQuizForm, saveQuizForm } from "../utils/formUtils"
 import Button from "./Button"
-import FormQuizField from "./FormQuizField"
+import FormQuizElement from "./FormQuizField"
 
 export default function FromQuiz(props: { attemptId: number; questionId: number }) {
   const [quizState, setQuizState] = useState<FormQuizType>(() => {
@@ -54,7 +54,7 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
   const selectedQuestion = () => {
     try {
       return (
-        <FormQuizField
+        <FormQuizElement
           key={currentQuestion.id}
           id={currentQuestion.id}
           label={currentQuestion.label}

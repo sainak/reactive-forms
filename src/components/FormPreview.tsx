@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { FormQuizType } from "../types/formTypes"
 import { loadQuizForm } from "../utils/formUtils"
-import Input from "./Input"
+import FormQuizElement from "./FormQuizField"
 
 export default function FromPreview(props: { attemptId: number }) {
   const [quizState, setQuizState] = useState<FormQuizType>(() =>
@@ -26,10 +26,14 @@ export default function FromPreview(props: { attemptId: number }) {
       </span>
       <div className="flex flex-col gap-2 w-full">
         {quizState.fields.map((field) => (
-          <div key={field.id}>
-            <span className="mt-2 w-full text-lg">{field.label}</span>
-            <Input type={field.type} value={field.value} disabled />
-          </div>
+          <FormQuizElement
+            key={field.id}
+            id={field.id}
+            label={field.label}
+            type={field.type}
+            value={field.value}
+            updateFieldValueCB={undefined}
+          />
         ))}
       </div>
     </div>

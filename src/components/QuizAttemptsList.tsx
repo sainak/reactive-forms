@@ -1,37 +1,27 @@
 import { Link, navigate, useQueryParams } from "raviger"
 import React, { useEffect, useState } from "react"
 import { ReactComponent as BinIcon } from "../img/bin.svg"
-import { ReactComponent as QuizIcon } from "../img/lightbulb.svg"
 import { ReactComponent as SearchIcon } from "../img/search.svg"
-import { FormType } from "../types/formTypes"
-import { getLocalForms, saveForms } from "../utils/formUtils"
+import { loadAllQuizForms } from "../utils/formUtils"
 
-export default function FormsList(props: {}) {
-  const [forms, setForms] = useState(getLocalForms())
+export default function QuizAttemptsList(props: {}) {
+  const [forms, setForms] = useState(() => loadAllQuizForms())
   const [{ search }, setQuery] = useQueryParams()
   const [searchString, setSearchString] = useState(() => search ?? "")
 
   const deleteForm = (id: number) => {
     const filteredLocalForms = forms.filter((formFilter) => formFilter.id !== id)
     setForms(filteredLocalForms)
-    saveForms(filteredLocalForms)
-  }
-
-  const attemptQuiz = (form: FormType) => {
-    const quizForm = {
-      id: Number(new Date()),
-      formId: form.id,
-      label: form.label,
-      fields: form.fields
-    }
-    localStorage.setItem(`answeredForm_${quizForm.id}`, JSON.stringify(quizForm))
-    navigate(`/quiz/${quizForm.id}/0`)
+    localStorage.removeItem(`answeredForm_${id}`)
   }
 
   const filterForms = (search?: string) => {
     if (!search) return forms
     return forms.filter((form) => {
-      return form.label.toLowerCase().includes(search?.toLowerCase())
+      return (
+        form.label.toLowerCase().includes(search?.toLowerCase()) ||
+        form.id === parseInt(search)
+      )
     })
   }
 
@@ -41,12 +31,12 @@ export default function FormsList(props: {}) {
     filteredForms = filterForms(searchString)
     let timeout = setTimeout(() => {
       if (searchString) {
-        navigate("/", {
+        navigate("/attempts", {
           replace: true,
           query: { search: searchString }
         })
       } else {
-        navigate("/", { replace: true })
+        navigate("/attempts", { replace: true })
       }
     }, 1500)
     return () => clearTimeout(timeout)
@@ -61,7 +51,7 @@ export default function FormsList(props: {}) {
           onSubmit={(e) => {
             e.preventDefault()
             setQuery({ search: searchString })
-            navigate("/", { query: { search: searchString } })
+            navigate("/attempts", { query: { search: searchString } })
           }}
         >
           <div className="relative mb-4">
@@ -91,22 +81,15 @@ export default function FormsList(props: {}) {
           >
             <Link
               className="h-full w-full cursor-pointer px-4 text-lg"
-              href={`/form/${form.id}`}
+              href={`/preview/${form.id}`}
             >
               <span className="block">{form.label}</span>
               <span className="block text-sm text-gray-500">
-                {form.fields.length} questions
+                Attempt Id: {form.id} | Form Id: {form.formId}
               </span>
             </Link>
             <button
-              className="ml-auto rounded-lg bg-green-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-green-700 "
-              onClick={() => attemptQuiz(form)}
-              title="quiz"
-            >
-              <QuizIcon className="h-4 w-4 text-white" />
-            </button>
-            <button
-              className="rounded-lg bg-red-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700 "
+              className="ml-auto rounded-lg bg-red-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700 "
               onClick={() => deleteForm(form.id)}
               title="delete"
             >
@@ -115,12 +98,6 @@ export default function FormsList(props: {}) {
           </div>
         ))}
       </div>
-      <Link
-        href="/form/new"
-        className="block w-full rounded-lg bg-sky-500 px-5 py-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 "
-      >
-        New Form
-      </Link>
     </>
   )
 }

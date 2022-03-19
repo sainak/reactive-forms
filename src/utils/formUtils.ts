@@ -1,4 +1,4 @@
-import { FormInputType, FormType } from "../types/formTypes"
+import { FormInputType, FormQuizType, FormType } from "../types/formTypes"
 
 const initialFormFields: FormInputType[] = [
   { id: 1, label: "First Name", type: "text", value: "Aakash" },
@@ -36,4 +36,19 @@ export const updatedForms = (form: FormType) => {
     (formFilter) => formFilter.id !== form.id
   )
   return [...filteredLocalForms, form]
+}
+
+export const loadAllQuizForms = (): FormQuizType[] => {
+  const answeredForms = Object.keys(localStorage).filter((key) =>
+    key.startsWith("answeredForm_")
+  )
+  return answeredForms.map((key) => JSON.parse(localStorage.getItem(key) || "[]"))
+}
+
+export const loadQuizForm = (id: number) => {
+  return JSON.parse(localStorage.getItem(`answeredForm_${id}`) || "{}")
+}
+
+export const saveQuizForm = (form: FormQuizType) => {
+  localStorage.setItem(`answeredForm_${form.id}`, JSON.stringify(form))
 }

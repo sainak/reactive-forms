@@ -1,5 +1,5 @@
 import { Link, navigate } from "raviger"
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { Fragment, useCallback, useEffect, useRef, useState } from "react"
 import { FormType } from "../types/formTypes"
 import { getInitialState, saveForms, updatedForms } from "../utils/formUtils"
 import Button from "./Button"
@@ -49,16 +49,6 @@ export default function FormBuilder(props: { formId: number }) {
       document.title = oldTitle
     }
   }, [formState.id, props.formId])
-
-  const updateFieldValue = (key: number, value: string) => {
-    const newFields = formState.fields.map((field) => {
-      if (field.id === key) {
-        return { ...field, value }
-      }
-      return field
-    })
-    setFormState({ ...formState, fields: newFields })
-  }
 
   const updateFieldQuestion = (key: number, value: string) => {
     const newFields = formState.fields.map((field) => {
@@ -125,7 +115,7 @@ export default function FormBuilder(props: { formId: number }) {
       </div>
 
       {formState.fields.map((field) => (
-        <>
+        <Fragment key={field.id}>
           <div className="mt-4 mb-2 flex w-full items-end gap-2">
             <span className="mr-auto font-bold text-gray-600 ">Type: {field.type}</span>
             <Button text="Remove" onClick={() => removeField(field.id)} />
@@ -136,7 +126,7 @@ export default function FormBuilder(props: { formId: number }) {
             placeholder="Question"
             onChange={(e) => updateFieldQuestion(field.id, e.target.value)}
           />
-        </>
+        </Fragment>
       ))}
 
       <div className="mt-8 w-full border-t-2 border-dashed border-gray-500 pt-4">

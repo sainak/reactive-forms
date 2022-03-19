@@ -4,11 +4,16 @@ import { ReactComponent as Logo } from "../img/logo.svg"
 const routes = [
   {
     id: 1,
-    page: "Home",
+    page: "Forms",
     url: "/"
   },
   {
     id: 2,
+    page: "Attempts",
+    url: "/attempts"
+  },
+  {
+    id: 9,
     page: "About",
     url: "/about"
   }

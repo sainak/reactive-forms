@@ -7,10 +7,15 @@ interface InputProps {
   placeholder?: string
   value?: string
   innerRef?: React.RefObject<HTMLInputElement>
+  disabled?: boolean
   onChange?: ((e: React.ChangeEvent<HTMLInputElement>) => void) | undefined
 }
 
-export default function Input({ type = "text", ...props }: InputProps) {
+export default function Input({
+  type = "text",
+  disabled = false,
+  ...props
+}: InputProps) {
   return (
     <input
       id={props.id}
@@ -21,6 +26,7 @@ export default function Input({ type = "text", ...props }: InputProps) {
       onChange={props.onChange}
       placeholder={props.placeholder}
       value={props.value}
+      disabled={disabled}
     />
   )
 }

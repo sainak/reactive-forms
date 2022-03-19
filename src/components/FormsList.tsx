@@ -1,6 +1,7 @@
 import { Link, navigate, useQueryParams } from "raviger"
 import React, { useEffect, useState } from "react"
 import { ReactComponent as BinIcon } from "../img/bin.svg"
+import { ReactComponent as AttemptsIcon } from "../img/clipboard.svg"
 import { ReactComponent as QuizIcon } from "../img/lightbulb.svg"
 import { ReactComponent as SearchIcon } from "../img/search.svg"
 import { FormType } from "../types/formTypes"
@@ -98,8 +99,14 @@ export default function FormsList(props: {}) {
                 {form.fields.length} questions
               </span>
             </Link>
+            <Link
+              className="ml-auto rounded-lg bg-yellow-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-yellow-700 "
+              href={`/attempts?formId=${form.id}`}
+            >
+              <AttemptsIcon className="h-4 w-4 text-white" />
+            </Link>
             <button
-              className="ml-auto rounded-lg bg-green-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-green-700 "
+              className="rounded-lg bg-green-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-green-700 "
               onClick={() => attemptQuiz(form)}
               title="quiz"
             >

@@ -6,7 +6,7 @@ import { loadAllQuizForms } from "../utils/formUtils"
 
 export default function QuizAttemptsList(props: {}) {
   const [forms, setForms] = useState(() => loadAllQuizForms())
-  const [{ search }, setQuery] = useQueryParams()
+  const [{ search, formId }, setQuery] = useQueryParams()
   const [searchString, setSearchString] = useState(() => search ?? "")
 
   const deleteForm = (id: number) => {
@@ -15,7 +15,11 @@ export default function QuizAttemptsList(props: {}) {
     localStorage.removeItem(`answeredForm_${id}`)
   }
 
-  const filterForms = (search?: string) => {
+  const filterForms = (search?: string, formId?: string | number) => {
+    if (formId) {
+      formId = Number(formId)
+      return forms.filter((form) => form.formId === formId)
+    }
     if (!search) return forms
     return forms.filter((form) => {
       return (
@@ -25,15 +29,15 @@ export default function QuizAttemptsList(props: {}) {
     })
   }
 
-  let filteredForms = filterForms(searchString)
+  let filteredForms = filterForms(searchString, formId)
 
   useEffect(() => {
-    filteredForms = filterForms(searchString)
+    filteredForms = filterForms(searchString, formId)
     let timeout = setTimeout(() => {
-      if (searchString) {
+      if (searchString || formId) {
         navigate("/attempts", {
           replace: true,
-          query: { search: searchString }
+          query: { search: searchString, formId: formId }
         })
       } else {
         navigate("/attempts", { replace: true })
@@ -50,8 +54,8 @@ export default function QuizAttemptsList(props: {}) {
           method="get"
           onSubmit={(e) => {
             e.preventDefault()
-            setQuery({ search: searchString })
-            navigate("/attempts", { query: { search: searchString } })
+            setQuery({ search: searchString, formId: formId })
+            navigate("/attempts", { query: { search: searchString, formId: formId } })
           }}
         >
           <div className="relative mb-4">

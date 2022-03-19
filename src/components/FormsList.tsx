@@ -102,6 +102,7 @@ export default function FormsList(props: {}) {
             <Link
               className="ml-auto rounded-lg bg-yellow-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-yellow-700 "
               href={`/attempts?formId=${form.id}`}
+              title="attempts"
             >
               <AttemptsIcon className="h-4 w-4 text-white" />
             </Link>

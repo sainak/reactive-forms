@@ -1,8 +1,10 @@
+import { FormFieldType } from "./fieldTypes"
+
 export interface FormType {
   id: number
   label: string
   autoSave: boolean
-  fields: FormInputType[]
+  fields: FormFieldType[]
 }
 
 export interface FormQuizType {
@@ -10,12 +12,5 @@ export interface FormQuizType {
   formId: number
   label: string
   answered: boolean
-  fields: FormInputType[]
-}
-
-export interface FormInputType {
-  id: number
-  label: string
-  type: string
-  value: string
+  fields: FormFieldType[]
 }

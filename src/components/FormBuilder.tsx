@@ -1,5 +1,6 @@
 import { Link, navigate } from "raviger"
 import React, { Fragment, useCallback, useEffect, useRef, useState } from "react"
+import { fieldKind } from "../types/fieldTypes"
 import { FormType } from "../types/formTypes"
 import { getInitialState, saveForms, updatedForms } from "../utils/formUtils"
 import Button from "./Button"
@@ -35,7 +36,7 @@ export default function FormBuilder(props: { formId: number }) {
     getInitialState(props.formId)
   )
   const [newField, setNewField] = useState("")
-  const [newFieldType, setNewFieldType] = useState("text")
+  const [newFieldType, setNewFieldType] = useState<fieldKind>("text")
   const formTitleRef = useRef<HTMLInputElement>(null)
   const saveButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -138,7 +139,7 @@ export default function FormBuilder(props: { formId: number }) {
         <div className="mt-4 flex items-center justify-between gap-2">
           <Select
             value={newFieldType}
-            onChange={(e) => setNewFieldType(e.target.value)}
+            onChange={(e) => setNewFieldType(e.target.value as fieldKind)}
             name="fieldType"
             options={formFieldTypes}
           />

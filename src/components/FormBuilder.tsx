@@ -23,29 +23,15 @@ const formFieldTypes: SelectItems[] = [
 
 const nestedFieldTypes = ["radio", "select-multiple", "select"]
 
-const buttonStyle = (color: string) => [
-  "w-full",
-  "rounded-lg",
-  "text-white",
-  "px-5",
-  "py-1",
-  "transition",
-  "duration-300",
-  "focus:ring-4",
-  `hover:bg-${color}-700`, // hover:bg-yellow-700 hover:bg-green-700
-  `bg-${color}-500`, // bg-yellow-500 bg-green-500
-  `focus:ring-${color}-300` // focus:ring-yellow-300 focus:ring-green-300
-]
-
 export default function FormBuilder(props: { formId: number }) {
   const [formState, setFormState] = useState<FormType>(() =>
     getInitialState(props.formId)
   )
   const [newField, setNewField] = useState("")
+  const [formSaved, setFormSaved] = useState(false)
   const [newFieldType, setNewFieldType] = useState<fieldKind>("text")
   const [newFieldChildren, setNewFieldChildren] = useState<FormFieldChildType[]>([])
   const formTitleRef = useRef<HTMLInputElement>(null)
-  const saveButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const oldTitle = document.title
@@ -141,11 +127,11 @@ export default function FormBuilder(props: { formId: number }) {
 
   const saveAllForms = useCallback(() => {
     saveForms(updatedForms(formState))
-    saveButtonRef.current!.className = buttonStyle("green").join(" ")
+    setFormSaved(true)
   }, [formState])
 
   useEffect(() => {
-    saveButtonRef.current!.className = buttonStyle("yellow").join(" ")
+    setFormSaved(false)
     if (formState.autoSave) {
       let timeout = setTimeout(() => {
         saveAllForms()
@@ -271,8 +257,10 @@ export default function FormBuilder(props: { formId: number }) {
               <div className="block h-8 w-14 rounded-full bg-gray-600"></div>
               <div
                 className={`dot absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition ${
-                  formState.autoSave ? " translate-x-full bg-green-500 " : ""
-                }`}
+                  formState.autoSave
+                    ? `translate-x-full ${formSaved ? "bg-green-500" : "bg-yellow-500"}`
+                    : ""
+                } `}
               ></div>
             </div>
             <div className="ml-3 font-medium text-gray-700">Autosave</div>
@@ -284,7 +272,16 @@ export default function FormBuilder(props: { formId: number }) {
         >
           Close Form
         </Link>
-        <button ref={saveButtonRef} onClick={saveAllForms} className="">
+        <button
+          onClick={saveAllForms}
+          className={`${
+            formSaved
+              ? " bg-green-500 hover:bg-green-700 focus:ring-green-300 "
+              : " bg-yellow-500 hover:bg-yellow-700 focus:ring-yellow-300 "
+          }
+            w-full rounded-lg text-white px-5 py-1 transition-colors duration-300 focus:ring-4
+        `}
+        >
           Save
         </button>
       </div>

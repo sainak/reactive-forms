@@ -36,7 +36,7 @@ function FormQuizField(props: FormInputProps) {
       return (
         <div>
           {props.children?.map((child) => (
-            <div className="flex gap-2" key={child.id}>
+            <div className="flex gap-2 items-center" key={child.id}>
               <input
                 id={`id_${props.id}_${child.id}`}
                 type="radio"
@@ -56,8 +56,18 @@ function FormQuizField(props: FormInputProps) {
       return (
         <select
           className="w-full rounded-lg border-2 border-gray-200 p-2"
-          value={props.value}
-          onChange={(e) => props.updateFieldValueCB?.(props.id, e.target.value)}
+          onChange={(e) =>
+            props.updateFieldValueCB?.(
+              props.id,
+              [...e.target.selectedOptions]
+                .filter((option) => option.selected)
+                .map((option) => option.value)
+                .join(",")
+            )
+          }
+          defaultValue={
+            props.type === "select-multiple" ? props.value.split(",") : props.value
+          }
           disabled={props.updateFieldValueCB === undefined}
           multiple={props.type === "select-multiple"}
         >

@@ -1,6 +1,6 @@
 import { Link, navigate } from "raviger"
 import React, { Fragment, useCallback, useEffect, useRef, useState } from "react"
-import { fieldKind } from "../types/fieldTypes"
+import { fieldKind, FormFieldChildType } from "../types/fieldTypes"
 import { FormType } from "../types/formTypes"
 import { getInitialState, saveForms, updatedForms } from "../utils/formUtils"
 import Button from "./Button"
@@ -14,8 +14,14 @@ const formFieldTypes: SelectItems[] = [
   { label: "Email", value: "email" },
   { label: "Date", value: "date" },
   { label: "Time", value: "time" },
-  { label: "DateTime Local", value: "datetime-local" }
+  { label: "DateTime Local", value: "datetime-local" },
+  { label: "Textarea", value: "textarea" },
+  { label: "Radio Group", value: "radio" },
+  { label: "Select", value: "select" },
+  { label: "Multi Select", value: "select-multiple" }
 ]
+
+const nestedFieldTypes = ["radio", "select-multiple", "select"]
 
 const buttonStyle = (color: string) => [
   "w-full",
@@ -37,6 +43,7 @@ export default function FormBuilder(props: { formId: number }) {
   )
   const [newField, setNewField] = useState("")
   const [newFieldType, setNewFieldType] = useState<fieldKind>("text")
+  const [newFieldChildren, setNewFieldChildren] = useState<FormFieldChildType[]>([])
   const formTitleRef = useRef<HTMLInputElement>(null)
   const saveButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -61,6 +68,77 @@ export default function FormBuilder(props: { formId: number }) {
     setFormState({ ...formState, fields: newFields })
   }
 
+  const getChildren = (id: number) =>
+    formState.fields.find((field) => field.id === id)?.children || []
+
+  const addNewChild = (label: string, parentId?: number) => {
+    if (parentId === undefined) {
+      setNewFieldChildren([...newFieldChildren, { id: Number(new Date()), label }])
+    } else {
+      setFormState({
+        ...formState,
+        fields: formState.fields.map((field) => {
+          if (field.id === parentId) {
+            return {
+              ...field,
+              children: [...getChildren(parentId), { id: Number(new Date()), label }]
+            }
+          }
+          return field
+        })
+      })
+    }
+  }
+
+  const removeChild = (id: number, parentId?: number) => {
+    if (parentId === undefined) {
+      setNewFieldChildren(newFieldChildren.filter((child) => child.id !== id))
+    } else {
+      setFormState({
+        ...formState,
+        fields: formState.fields.map((field) => {
+          if (field.id === parentId) {
+            return {
+              ...field,
+              children: getChildren(parentId).filter((child) => child.id !== id)
+            }
+          }
+          return field
+        })
+      })
+    }
+  }
+
+  const updateChildLabel = (id: number, value: string, parentId?: number) => {
+    if (parentId === undefined) {
+      const newChildren = newFieldChildren.map((child) => {
+        if (child.id === id) {
+          return { ...child, label: value }
+        }
+        return child
+      })
+      setNewFieldChildren(newChildren)
+    } else {
+      setFormState({
+        ...formState,
+        fields: formState.fields.map((field) => {
+          if (field.id === parentId) {
+            return {
+              ...field,
+              children: getChildren(parentId).map((child) => {
+                if (child.id === id) {
+                  return { ...child, label: value }
+                }
+                return child
+              })
+            }
+          }
+          return field
+        })
+      })
+    }
+  }
+
   const saveAllForms = useCallback(() => {
     saveForms(updatedForms(formState))
     saveButtonRef.current!.className = buttonStyle("green").join(" ")
@@ -79,11 +157,18 @@ export default function FormBuilder(props: { formId: number }) {
   const addField = () => {
     const newFields = [
       ...formState.fields,
-      { id: Number(new Date()), label: newField, type: newFieldType, value: "" }
+      {
+        id: Number(new Date()),
+        label: newField,
+        type: newFieldType,
+        value: "",
+        children: nestedFieldTypes.includes(newFieldType) ? newFieldChildren : []
+      }
     ]
     setFormState({ ...formState, fields: newFields })
     setNewField("")
     setNewFieldType("text")
+    setNewFieldChildren([])
   }
 
   const removeField = (key: number) => {
@@ -103,6 +188,22 @@ export default function FormBuilder(props: { formId: number }) {
       fields: newFields
     })
   }
+
+  const childrenFields = (children: FormFieldChildType[], parentId?: number) => (
+    <div className="flex flex-col gap-2 p-4 w-full rounded-b-lg border-2 border-t-0">
+      {children.map((child) => (
+        <div className="flex gap-2" key={child.id}>
+          <Input
+            value={child.label}
+            onChange={(e) => updateChildLabel(child.id, e.target.value, parentId)}
+            placeholder="Option"
+          />
+          <Button text="Remove" onClick={() => removeChild(child.id, parentId)} />
+        </div>
+      ))}
+      <Button text="Add Option" onClick={() => addNewChild("", parentId)} />
+    </div>
+  )
 
   return (
     <div className="flex flex-col items-center">
@@ -127,6 +228,8 @@ export default function FormBuilder(props: { formId: number }) {
             placeholder="Question"
             onChange={(e) => updateFieldQuestion(field.id, e.target.value)}
           />
+          {nestedFieldTypes.includes(field.type) &&
+            childrenFields(field.children || [], field.id)}
         </Fragment>
       ))}
 
@@ -134,8 +237,9 @@ export default function FormBuilder(props: { formId: number }) {
         <Input
           value={newField}
           onChange={(e) => setNewField(e.target.value)}
-          placeholder="New Field"
+          placeholder="Question"
         />
+        {nestedFieldTypes.includes(newFieldType) && childrenFields(newFieldChildren)}
         <div className="mt-4 flex items-center justify-between gap-2">
           <Select
             value={newFieldType}
@@ -146,6 +250,7 @@ export default function FormBuilder(props: { formId: number }) {
           <Button text="Add Field" onClick={addField} fullWidth />
         </div>
       </div>
+
       <div className="mt-8 grid w-full grid-cols-2 gap-2">
         <Button text="Reset Form" onClick={resetForm} fullWidth inverted />
         <div className="flex items-center justify-center">
@@ -164,7 +269,11 @@ export default function FormBuilder(props: { formId: number }) {
                 className="sr-only"
               />
               <div className="block h-8 w-14 rounded-full bg-gray-600"></div>
-              <div className="dot absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition"></div>
+              <div
+                className={`dot absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition ${
+                  formState.autoSave ? " translate-x-full bg-green-500 " : ""
+                }`}
+              ></div>
             </div>
             <div className="ml-3 font-medium text-gray-700">Autosave</div>
           </label>

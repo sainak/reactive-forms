@@ -26,7 +26,7 @@ export default function FormsList(props: {}) {
       fields: form.fields
     }
     localStorage.setItem(`answeredForm_${quizForm.id}`, JSON.stringify(quizForm))
-    navigate(`/quiz/${quizForm.id}/0`)
+    navigate(`/preview/${quizForm.id}/0`)
   }
 
   const filterForms = (search?: string) => {

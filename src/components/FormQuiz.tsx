@@ -21,7 +21,7 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
           return { ...field, value }
         }
         return field
-      })
+      }),
     })
   }
 
@@ -50,17 +50,17 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="my-2 w-full border-b-2 border-gray-400 text-center p-2 text-xl font-semibold">
+      <div className="my-2 w-full border-b-2 border-gray-400 p-2 text-center text-xl font-semibold">
         {quizState.label}
       </div>
       {quizState.fields.length === 0 ? (
         <div className="text-center text-xl">No questions found.</div>
       ) : quizState.answered ? (
         <>
-          <span className="text-right w-full text-gray-600 mb-4">
+          <span className="mb-4 w-full text-right text-gray-600">
             Attempt Id: {quizState.id}
           </span>
-          <div className="flex flex-col gap-2 w-full">
+          <div className="flex w-full flex-col gap-2">
             {quizState.fields.map((field) => (
               <FormQuizElement
                 key={field.id}
@@ -76,10 +76,10 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
         </>
       ) : (
         <>
-          <div className="flex gap-2 w-full text-gray-600 flex-wrap">
+          <div className="flex w-full flex-wrap gap-2 text-gray-600">
             <div className="p-1">
               <CircleIcon
-                className={`w-4 h-4 transition-colors duration-300 ${
+                className={`h-4 w-4 transition-colors duration-300 ${
                   isSaved ? " text-green-500 " : " text-yellow-500 "
                 }`}
               />
@@ -92,13 +92,13 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
               {quizState.fields[props.questionId]?.id ?? 0}
             </span>
           </div>
-          <div className="flex flex-col gap-2 w-full">
+          <div className="flex  w-full flex-col gap-2">
             <FormQuizElement
               {...quizState.fields[props.questionId]}
               updateFieldValueCB={updateFieldValue}
             />
           </div>
-          <div className="flex w-full justify-between mt-4">
+          <div className="mt-4 flex w-full justify-between">
             {props.questionId === 0 || props.questionId > quizState.fields.length ? (
               <div></div>
             ) : (

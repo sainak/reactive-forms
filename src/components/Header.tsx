@@ -5,18 +5,18 @@ const routes = [
   {
     id: 1,
     page: "Forms",
-    url: "/"
+    url: "/",
   },
   {
     id: 2,
     page: "Attempts",
-    url: "/attempts"
+    url: "/attempts",
   },
   {
     id: 9,
     page: "About",
-    url: "/about"
-  }
+    url: "/about",
+  },
 ]
 
 export default function Header() {

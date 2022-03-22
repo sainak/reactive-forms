@@ -37,7 +37,7 @@ export default function QuizAttemptsList(props: {}) {
       if (searchString || formId) {
         navigate("/attempts", {
           replace: true,
-          query: { search: searchString, formId: formId }
+          query: { search: searchString, formId: formId },
         })
       } else {
         navigate("/attempts", { replace: true })
@@ -81,7 +81,7 @@ export default function QuizAttemptsList(props: {}) {
         {filteredForms.map((form) => (
           <div
             key={form.id}
-            className=" flex w-full items-center rounded-lg p-2 hover:bg-sky-200 gap-2"
+            className=" flex w-full items-center gap-2 rounded-lg p-2 hover:bg-sky-200"
           >
             <Link
               className="h-full w-full cursor-pointer px-4 text-lg"

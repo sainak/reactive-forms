@@ -18,7 +18,7 @@ const formFieldTypes: SelectItems[] = [
   { label: "Textarea", value: "textarea" },
   { label: "Radio Group", value: "radio" },
   { label: "Select", value: "select" },
-  { label: "Multi Select", value: "select-multiple" }
+  { label: "Multi Select", value: "select-multiple" },
 ]
 
 const nestedFieldTypes = ["radio", "select-multiple", "select"]
@@ -67,11 +67,11 @@ export default function FormBuilder(props: { formId: number }) {
           if (field.id === parentId) {
             return {
               ...field,
-              children: [...getChildren(parentId), { id: Number(new Date()), label }]
+              children: [...getChildren(parentId), { id: Number(new Date()), label }],
             }
           }
           return field
-        })
+        }),
       })
     }
   }
@@ -86,11 +86,11 @@ export default function FormBuilder(props: { formId: number }) {
           if (field.id === parentId) {
             return {
               ...field,
-              children: getChildren(parentId).filter((child) => child.id !== id)
+              children: getChildren(parentId).filter((child) => child.id !== id),
             }
           }
           return field
-        })
+        }),
       })
     }
   }
@@ -116,11 +116,11 @@ export default function FormBuilder(props: { formId: number }) {
                   return { ...child, label: value }
                 }
                 return child
-              })
+              }),
             }
           }
           return field
-        })
+        }),
       })
     }
   }
@@ -148,8 +148,8 @@ export default function FormBuilder(props: { formId: number }) {
         label: newField,
         type: newFieldType,
         value: "",
-        children: nestedFieldTypes.includes(newFieldType) ? newFieldChildren : []
-      }
+        children: nestedFieldTypes.includes(newFieldType) ? newFieldChildren : [],
+      },
     ]
     setFormState({ ...formState, fields: newFields })
     setNewField("")
@@ -161,7 +161,7 @@ export default function FormBuilder(props: { formId: number }) {
     const newFields = formState.fields.filter((field) => field.id !== key)
     setFormState({
       ...formState,
-      fields: newFields
+      fields: newFields,
     })
   }
 
@@ -171,12 +171,12 @@ export default function FormBuilder(props: { formId: number }) {
     })
     setFormState({
       ...formState,
-      fields: newFields
+      fields: newFields,
     })
   }
 
   const childrenFields = (children: FormFieldChildType[], parentId?: number) => (
-    <div className="flex flex-col gap-2 p-4 w-full rounded-b-lg border-2 border-t-0">
+    <div className="flex w-full flex-col gap-2 rounded-b-lg border-2 border-t-0 p-4">
       {children.map((child) => (
         <div className="flex gap-2" key={child.id}>
           <Input
@@ -279,7 +279,7 @@ export default function FormBuilder(props: { formId: number }) {
               ? " bg-green-500 hover:bg-green-700 focus:ring-green-300 "
               : " bg-yellow-500 hover:bg-yellow-700 focus:ring-yellow-300 "
           }
-            w-full rounded-lg text-white px-5 py-1 transition-colors duration-300 focus:ring-4
+            w-full rounded-lg px-5 py-1 text-white transition-colors duration-300 focus:ring-4
         `}
         >
           Save

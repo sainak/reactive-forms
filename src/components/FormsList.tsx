@@ -23,7 +23,7 @@ export default function FormsList(props: {}) {
       id: Number(new Date()),
       formId: form.id,
       label: form.label,
-      fields: form.fields
+      fields: form.fields,
     }
     localStorage.setItem(`answeredForm_${quizForm.id}`, JSON.stringify(quizForm))
     navigate(`/preview/${quizForm.id}/0`)
@@ -44,7 +44,7 @@ export default function FormsList(props: {}) {
       if (searchString) {
         navigate("/", {
           replace: true,
-          query: { search: searchString }
+          query: { search: searchString },
         })
       } else {
         navigate("/", { replace: true })
@@ -88,7 +88,7 @@ export default function FormsList(props: {}) {
         {filteredForms.map((form) => (
           <div
             key={form.id}
-            className=" flex w-full items-center rounded-lg p-2 hover:bg-sky-200 gap-2"
+            className=" flex w-full items-center gap-2 rounded-lg p-2 hover:bg-sky-200"
           >
             <Link
               className="h-full w-full cursor-pointer px-4 text-lg"

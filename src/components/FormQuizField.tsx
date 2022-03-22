@@ -36,7 +36,7 @@ function FormQuizField(props: FormInputProps) {
       return (
         <div>
           {props.children?.map((child) => (
-            <div className="flex gap-2 items-center" key={child.id}>
+            <div className="flex items-center gap-2" key={child.id}>
               <input
                 id={`id_${props.id}_${child.id}`}
                 type="radio"

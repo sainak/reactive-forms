@@ -15,7 +15,7 @@ const routes = {
   "/preview/:id/:qid": ({ id, qid }: { id: string; qid: string }) => (
     <FromQuiz attemptId={Number(id)} questionId={Number(qid)} />
   ),
-  "/about": () => <About />
+  "/about": () => <About />,
 }
 
 export default function AppRouter() {

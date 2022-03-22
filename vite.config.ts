@@ -8,9 +8,9 @@ export default defineConfig({
     react(),
     svgrPlugin({
       svgrOptions: {
-        icon: true
+        icon: true,
         // ...svgr options (https://react-svgr.com/docs/options/)
-      }
-    })
-  ]
+      },
+    }),
+  ],
 })

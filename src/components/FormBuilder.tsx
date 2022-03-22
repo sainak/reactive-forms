@@ -28,7 +28,7 @@ export default function FormBuilder(props: { formId: number }) {
     getInitialState(props.formId)
   )
   const [newField, setNewField] = useState("")
-  const [formSaved, setFormSaved] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
   const [newFieldType, setNewFieldType] = useState<fieldKind>("text")
   const [newFieldChildren, setNewFieldChildren] = useState<FormFieldChildType[]>([])
   const formTitleRef = useRef<HTMLInputElement>(null)
@@ -127,11 +127,11 @@ export default function FormBuilder(props: { formId: number }) {
 
   const saveAllForms = useCallback(() => {
     saveForms(updatedForms(formState))
-    setFormSaved(true)
+    setIsSaved(true)
   }, [formState])
 
   useEffect(() => {
-    setFormSaved(false)
+    setIsSaved(false)
     if (formState.autoSave) {
       let timeout = setTimeout(() => {
         saveAllForms()
@@ -258,7 +258,7 @@ export default function FormBuilder(props: { formId: number }) {
               <div
                 className={`dot absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition ${
                   formState.autoSave
-                    ? `translate-x-full ${formSaved ? "bg-green-500" : "bg-yellow-500"}`
+                    ? `translate-x-full ${isSaved ? "bg-green-500" : "bg-yellow-500"}`
                     : ""
                 } `}
               ></div>
@@ -275,7 +275,7 @@ export default function FormBuilder(props: { formId: number }) {
         <button
           onClick={saveAllForms}
           className={`${
-            formSaved
+            isSaved
               ? " bg-green-500 hover:bg-green-700 focus:ring-green-300 "
               : " bg-yellow-500 hover:bg-yellow-700 focus:ring-yellow-300 "
           }

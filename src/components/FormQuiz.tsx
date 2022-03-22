@@ -11,7 +11,7 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
     return loadQuizForm(props.attemptId)
   })
 
-  const [saveStatus, setSaveStatus] = useState(true)
+  const [isSaved, setIsSaved] = useState(false)
 
   const updateFieldValue = (key: number, value: string) => {
     setQuizState({
@@ -32,10 +32,10 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
   }
 
   useEffect(() => {
-    setSaveStatus(false)
+    setIsSaved(false)
     let timeout = setTimeout(() => {
       saveQuizForm(quizState)
-      setSaveStatus(true)
+      setIsSaved(true)
     }, 2000)
     return () => clearTimeout(timeout)
   }, [quizState])
@@ -80,7 +80,7 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
             <div className="p-1">
               <CircleIcon
                 className={`w-4 h-4 transition-colors duration-300 ${
-                  saveStatus ? " text-green-500 " : " text-yellow-500 "
+                  isSaved ? " text-green-500 " : " text-yellow-500 "
                 }`}
               />
             </div>

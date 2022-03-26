@@ -1,7 +1,6 @@
+import { SearchIcon, TrashIcon } from "@heroicons/react/outline"
 import { Link, navigate, useQueryParams } from "raviger"
 import React, { useEffect, useState } from "react"
-import { ReactComponent as BinIcon } from "../img/bin.svg"
-import { ReactComponent as SearchIcon } from "../img/search.svg"
 import { loadAllQuizForms } from "../utils/formUtils"
 
 export default function QuizAttemptsList(props: {}) {
@@ -93,11 +92,11 @@ export default function QuizAttemptsList(props: {}) {
               </span>
             </Link>
             <button
-              className="ml-auto rounded-lg bg-red-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700 "
+              className="ml-auto rounded-lg bg-red-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700 "
               onClick={() => deleteForm(form.id)}
               title="delete"
             >
-              <BinIcon className="h-4 w-4 text-white" />
+              <TrashIcon className="h-5 w-5 text-white" />
             </button>
           </div>
         ))}

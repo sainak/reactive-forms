@@ -1,8 +1,10 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@heroicons/react': ^1.0.6
   '@types/react': ^17.0.33
   '@types/react-dom': ^17.0.10
+  '@types/tailwindcss': ^3.0.9
   '@vitejs/plugin-react': ^1.0.7
   autoprefixer: ^10.4.2
   postcss: ^8.4.7
@@ -18,6 +20,7 @@ specifiers:
   vite-plugin-svgr: ^1.0.1
 
 dependencies:
+  '@heroicons/react': 1.0.6_react@17.0.2
   raviger: 4.0.0_react@17.0.2
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
@@ -25,6 +28,7 @@ dependencies:
 devDependencies:
   '@types/react': 17.0.40
   '@types/react-dom': 17.0.13
+  '@types/tailwindcss': 3.0.9
   '@vitejs/plugin-react': 1.2.0
   autoprefixer: 10.4.2_postcss@8.4.8
   postcss: 8.4.8
@@ -306,6 +310,14 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
+  /@heroicons/react/1.0.6_react@17.0.2:
+    resolution: {integrity: sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 17.0.2
+    dev: false
+
   /@jridgewell/resolve-uri/3.0.5:
     resolution: {integrity: sha512-VPeQ7+wH0itvQxnG+lIzWgkysKIr3L9sslimFW55rHMdGu/qCQ5z5h9zq4gI8uBtqkpHhsF4Z/OwExufUCThew==}
     engines: {node: '>=6.0.0'}
@@ -498,6 +510,10 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+    dev: true
+
+  /@types/tailwindcss/3.0.9:
+    resolution: {integrity: sha512-uZjNKNjlA6cr6py/GWsDjevJb/Bl0fmaMNUdIpNMW3TJGJzxN9O6uFWx97LiSK7ithWNrrDSytq1FdvHpgSvWg==}
     dev: true
 
   /@vitejs/plugin-react/1.2.0:

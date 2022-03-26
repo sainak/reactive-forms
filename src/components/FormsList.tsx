@@ -1,9 +1,11 @@
+import {
+  ClipboardListIcon,
+  LightBulbIcon,
+  SearchIcon,
+  TrashIcon,
+} from "@heroicons/react/outline"
 import { Link, navigate, useQueryParams } from "raviger"
 import React, { useEffect, useState } from "react"
-import { ReactComponent as BinIcon } from "../img/bin.svg"
-import { ReactComponent as AttemptsIcon } from "../img/clipboard.svg"
-import { ReactComponent as QuizIcon } from "../img/lightbulb.svg"
-import { ReactComponent as SearchIcon } from "../img/search.svg"
 import { FormType } from "../types/formTypes"
 import { getLocalForms, saveForms } from "../utils/formUtils"
 
@@ -100,25 +102,25 @@ export default function FormsList(props: {}) {
               </span>
             </Link>
             <Link
-              className="ml-auto rounded-lg bg-yellow-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-yellow-700 "
+              className="ml-auto rounded-lg bg-yellow-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-yellow-700 "
               href={`/attempts?formId=${form.id}`}
               title="attempts"
             >
-              <AttemptsIcon className="h-4 w-4 text-white" />
+              <ClipboardListIcon className="h-5 w-5 text-white" />
             </Link>
             <button
-              className="rounded-lg bg-green-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-green-700 "
+              className="rounded-lg bg-green-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-green-700 "
               onClick={() => attemptQuiz(form)}
               title="quiz"
             >
-              <QuizIcon className="h-4 w-4 text-white" />
+              <LightBulbIcon className="h-5 w-5 text-white" />
             </button>
             <button
-              className="rounded-lg bg-red-500 p-2.5 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700 "
+              className="rounded-lg bg-red-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700 "
               onClick={() => deleteForm(form.id)}
               title="delete"
             >
-              <BinIcon className="h-4 w-4 text-white" />
+              <TrashIcon className="h-5 w-5 text-white" />
             </button>
           </div>
         ))}

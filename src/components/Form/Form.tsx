@@ -7,13 +7,13 @@ import { FormType } from "./types";
 import { getInitialState, saveForms, updatedForms } from "./utils";
 
 const formFieldTypes: SelectItems[] = [
-  { label: "Text", value: "text" },
-  { label: "Number", value: "number" },
-  { label: "Telephone", value: "tel" },
-  { label: "Email", value: "email" },
-  { label: "Date", value: "date" },
-  { label: "Time", value: "time" },
-  { label: "DateTime Local", value: "datetime-local" }
+  { id: 1, label: "Text", value: "text" },
+  { id: 2, label: "Number", value: "number" },
+  { id: 3, label: "Telephone", value: "tel" },
+  { id: 4, label: "Email", value: "email" },
+  { id: 5, label: "Date", value: "date" },
+  { id: 6, label: "Time", value: "time" },
+  { id: 7, label: "DateTime Local", value: "datetime-local" }
 ];
 
 const buttonStyles = [
@@ -121,7 +121,7 @@ export default function Form(props: { formId?: number; closeFormCB: () => void }
     <div className="flex flex-col items-center">
       <div className="flex w-full items-center justify-between gap-2">
         <Input
-          ref={formTitleRef}
+          innerRef={formTitleRef}
           placeholder="Form Title"
           value={formState.label}
           onChange={(e) => setFormState({ ...formState, label: e.target.value })}

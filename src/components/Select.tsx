@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface SelectItems {
-  id?: string;
+  id: number;
   label: string;
   value: string;
 }
@@ -26,7 +26,7 @@ export default function Select(props: SelectProps) {
       defaultValue={props.defaultValue}
     >
       {props.options.map((item) => (
-        <option id={item.id} value={item.value}>
+        <option key={item.id} id={item.id.toString()} value={item.value}>
           {item.label}
         </option>
       ))}

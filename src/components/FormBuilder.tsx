@@ -126,8 +126,10 @@ export default function FormBuilder(props: { formId: number }) {
   }
 
   const saveAllForms = useCallback(() => {
-    saveForms(updatedForms(formState))
-    setIsSaved(true)
+    if (formState.fields.length > 0) {
+      saveForms(updatedForms(formState))
+      setIsSaved(true)
+    }
   }, [formState])
 
   useEffect(() => {
@@ -274,13 +276,19 @@ export default function FormBuilder(props: { formId: number }) {
         </Link>
         <button
           onClick={saveAllForms}
-          className={`${
-            isSaved
-              ? " bg-green-500 hover:bg-green-700 focus:ring-green-300 "
-              : " bg-yellow-500 hover:bg-yellow-700 focus:ring-yellow-300 "
-          }
-            w-full rounded-lg px-5 py-1 text-white transition-colors duration-300 focus:ring-4
-        `}
+          className={`w-full rounded-lg px-5 py-1 text-white transition-colors duration-300 focus:ring-4
+            ${
+              isSaved
+                ? " bg-green-500 hover:bg-green-700 focus:ring-green-300 "
+                : " bg-yellow-500 hover:bg-yellow-700 focus:ring-yellow-300 "
+            }
+            ${
+              formState.fields.length === 0
+                ? "cursor-not-allowed bg-gray-400 hover:bg-gray-300"
+                : ""
+            }
+            `}
+          disabled={formState.fields.length === 0}
         >
           Save
         </button>

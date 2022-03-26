@@ -5,9 +5,9 @@ module.exports = {
     extend: {
       animation: {
         "spin-slow": "spin 2s linear infinite",
-        "pinwheel": "spin 2s cubic-bezier(0.65, 0.03, 0.58, 1) infinite;",
+        pinwheel: "spin 2s cubic-bezier(0.65, 0.03, 0.58, 1) infinite;",
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 }

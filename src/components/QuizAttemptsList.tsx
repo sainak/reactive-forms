@@ -1,7 +1,8 @@
-import { SearchIcon, TrashIcon } from "@heroicons/react/outline"
+import { TrashIcon } from "@heroicons/react/outline"
 import { Link, navigate, useQueryParams } from "raviger"
 import React, { useEffect, useState } from "react"
 import { loadAllQuizForms } from "../utils/formUtils"
+import { SearchBar } from "./SearchBar"
 
 export default function QuizAttemptsList(props: {}) {
   const [forms, setForms] = useState(() => loadAllQuizForms())
@@ -47,35 +48,13 @@ export default function QuizAttemptsList(props: {}) {
 
   return (
     <>
-      <div>
-        <form
-          action=""
-          method="get"
-          onSubmit={(e) => {
-            e.preventDefault()
-            setQuery({ search: searchString, formId: formId })
-            navigate("/attempts", { query: { search: searchString, formId: formId } })
-          }}
-        >
-          <div className="relative mb-4">
-            <button type="submit" title="search">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                <SearchIcon className="h-5 w-5 text-gray-600" />
-              </span>
-            </button>
-            <input
-              type="search"
-              name="search"
-              className=" w-full rounded-lg border-2 border-gray-200 p-2 pl-10"
-              onChange={(e) => setSearchString(e.target.value)}
-              value={searchString}
-              id="id_search"
-              placeholder="Search"
-              autoComplete="off"
-            />
-          </div>
-        </form>
-      </div>
+      <SearchBar
+        searchString={searchString}
+        onFormSubmit={() => {
+          navigate("/attempts", { replace: true, query: { search: searchString } })
+        }}
+        onSearchStringChange={(value) => setSearchString(value)}
+      />
       <div className="mb-4 flex flex-col gap-2">
         {filteredForms.map((form) => (
           <div

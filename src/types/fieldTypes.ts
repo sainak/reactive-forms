@@ -32,6 +32,6 @@ export interface FormFieldType {
   id: number
   label: string
   type: FieldKind
-  children?: FormFieldChildType[]
+  children: FormFieldChildType[]
   value: string
 }

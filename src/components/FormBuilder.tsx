@@ -1,7 +1,15 @@
 import { Link, navigate } from "raviger"
-import React, { Fragment, useCallback, useEffect, useRef, useState } from "react"
-import { FieldKind, FormFieldChildType } from "../types/fieldTypes"
-import { FormType } from "../types/formTypes"
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react"
+import formBuilderReducer from "../reducers/formBuilderReducer"
+import newFieldReducer from "../reducers/newFieldReducer"
+import { FormFieldChildType, FormFieldType } from "../types/fieldTypes"
 import {
   getInitialState,
   isNestedField,
@@ -14,27 +22,39 @@ import Select, { SelectItems } from "./Select"
 
 const formFieldTypeOptions: SelectItems[] = [
   { label: "Text", value: "text" },
+  { label: "Textarea", value: "textarea" },
   { label: "Number", value: "number" },
   { label: "Telephone", value: "tel" },
   { label: "Email", value: "email" },
   { label: "Date", value: "date" },
   { label: "Time", value: "time" },
   { label: "DateTime Local", value: "datetime-local" },
-  { label: "Textarea", value: "textarea" },
   { label: "Radio Group", value: "radio" },
   { label: "Select", value: "select" },
   { label: "Multi Select", value: "select-multiple" },
 ]
 
 export default function FormBuilder(props: { formId: number }) {
-  const [formState, setFormState] = useState<FormType>(() =>
+  const [formState, formDispatch] = useReducer(
+    formBuilderReducer,
     getInitialState(props.formId)
   )
-  const [newField, setNewField] = useState("")
+
+  const [newFieldState, newFieldDispatch] = useReducer(newFieldReducer, {
+    label: "",
+    type: "text",
+    children: [],
+  })
+
   const [isSaved, setIsSaved] = useState(false)
-  const [newFieldType, setNewFieldType] = useState<FieldKind>("text")
-  const [newFieldChildren, setNewFieldChildren] = useState<FormFieldChildType[]>([])
   const formTitleRef = useRef<HTMLInputElement>(null)
+
+  const saveAllForms = useCallback(() => {
+    if (formState.fields.length > 0) {
+      saveForms(updatedForms(formState))
+      setIsSaved(true)
+    }
+  }, [formState])
 
   useEffect(() => {
     const oldTitle = document.title
@@ -47,94 +67,6 @@ export default function FormBuilder(props: { formId: number }) {
     }
   }, [formState.id, props.formId])
 
-  const updateFieldQuestion = (key: number, value: string) => {
-    const newFields = formState.fields.map((field) => {
-      if (field.id === key) {
-        return { ...field, label: value }
-      }
-      return field
-    })
-    setFormState({ ...formState, fields: newFields })
-  }
-
-  const getChildren = (id: number) =>
-    formState.fields.find((field) => field.id === id)?.children || []
-
-  const addNewChild = (label: string, parentId?: number) => {
-    if (parentId === undefined) {
-      setNewFieldChildren([...newFieldChildren, { id: Number(new Date()), label }])
-    } else {
-      setFormState({
-        ...formState,
-        fields: formState.fields.map((field) => {
-          if (field.id === parentId) {
-            return {
-              ...field,
-              children: [...getChildren(parentId), { id: Number(new Date()), label }],
-            }
-          }
-          return field
-        }),
-      })
-    }
-  }
-
-  const removeChild = (id: number, parentId?: number) => {
-    if (parentId === undefined) {
-      setNewFieldChildren(newFieldChildren.filter((child) => child.id !== id))
-    } else {
-      setFormState({
-        ...formState,
-        fields: formState.fields.map((field) => {
-          if (field.id === parentId) {
-            return {
-              ...field,
-              children: getChildren(parentId).filter((child) => child.id !== id),
-            }
-          }
-          return field
-        }),
-      })
-    }
-  }
-
-  const updateChildLabel = (id: number, value: string, parentId?: number) => {
-    if (parentId === undefined) {
-      const newChildren = newFieldChildren.map((child) => {
-        if (child.id === id) {
-          return { ...child, label: value }
-        }
-        return child
-      })
-      setNewFieldChildren(newChildren)
-    } else {
-      setFormState({
-        ...formState,
-        fields: formState.fields.map((field) => {
-          if (field.id === parentId) {
-            return {
-              ...field,
-              children: getChildren(parentId).map((child) => {
-                if (child.id === id) {
-                  return { ...child, label: value }
-                }
-                return child
-              }),
-            }
-          }
-          return field
-        }),
-      })
-    }
-  }
-
-  const saveAllForms = useCallback(() => {
-    if (formState.fields.length > 0) {
-      saveForms(updatedForms(formState))
-      setIsSaved(true)
-    }
-  }, [formState])
-
   useEffect(() => {
     setIsSaved(false)
     if (formState.autoSave) {
@@ -145,54 +77,46 @@ export default function FormBuilder(props: { formId: number }) {
     }
   }, [formState, saveAllForms])
 
-  const addField = () => {
-    const newFields = [
-      ...formState.fields,
-      {
-        id: Number(new Date()),
-        label: newField,
-        type: newFieldType,
-        value: "",
-        children: isNestedField(newFieldType) ? newFieldChildren : [],
-      },
-    ]
-    setFormState({ ...formState, fields: newFields })
-    setNewField("")
-    setNewFieldType("text")
-    setNewFieldChildren([])
-  }
-
-  const removeField = (key: number) => {
-    const newFields = formState.fields.filter((field) => field.id !== key)
-    setFormState({
-      ...formState,
-      fields: newFields,
-    })
-  }
-
-  const resetForm = () => {
-    const newFields = formState.fields.map((field) => {
-      return { ...field, value: "" }
-    })
-    setFormState({
-      ...formState,
-      fields: newFields,
-    })
-  }
-
-  const childrenFields = (children: FormFieldChildType[], parentId?: number) => (
+  const renderChildren = (children: FormFieldChildType[], parentId?: number) => (
     <div className="flex w-full flex-col gap-2 rounded-b-lg border-2 border-t-0 p-4">
       {children.map((child) => (
         <div className="flex gap-2" key={child.id}>
           <Input
             value={child.label}
-            onChange={(e) => updateChildLabel(child.id, e.target.value, parentId)}
+            onChange={(e) =>
+              parentId
+                ? formDispatch({
+                    type: "updateFieldChild",
+                    parentId,
+                    id: child.id,
+                    label: e.target.value,
+                  })
+                : newFieldDispatch({
+                    type: "updateNewFieldChildLabel",
+                    id: child.id,
+                    label: e.target.value,
+                  })
+            }
             placeholder="Option"
           />
-          <Button text="Remove" onClick={() => removeChild(child.id, parentId)} />
+          <Button
+            text="Remove"
+            onClick={() =>
+              parentId
+                ? formDispatch({ type: "removeFieldChild", parentId, id: child.id })
+                : newFieldDispatch({ type: "removeNewFieldChild", id: child.id })
+            }
+          />
         </div>
       ))}
-      <Button text="Add Option" onClick={() => addNewChild("", parentId)} />
+      <Button
+        text="Add Option"
+        onClick={() =>
+          parentId
+            ? formDispatch({ type: "addFieldChild", parentId, label: "" })
+            : newFieldDispatch({ type: "addNewFieldChild", label: "" })
+        }
+      />
     </div>
   )
 
@@ -203,7 +127,9 @@ export default function FormBuilder(props: { formId: number }) {
           innerRef={formTitleRef}
           placeholder="Form Title"
           value={formState.label}
-          onChange={(e) => setFormState({ ...formState, label: e.target.value })}
+          onChange={(e) =>
+            formDispatch({ type: "updateFormTitle", label: e.target.value })
+          }
         />
       </div>
 
@@ -211,38 +137,69 @@ export default function FormBuilder(props: { formId: number }) {
         <Fragment key={field.id}>
           <div className="mt-4 mb-2 flex w-full items-end gap-2">
             <span className="mr-auto font-bold text-gray-600 ">Type: {field.type}</span>
-            <Button text="Remove" onClick={() => removeField(field.id)} />
+            <Button
+              text="Remove"
+              onClick={() => formDispatch({ type: "removeField", id: field.id })}
+            />
           </div>
           <Input
             key={field.id}
             value={field.label}
             placeholder="Question"
-            onChange={(e) => updateFieldQuestion(field.id, e.target.value)}
+            onChange={(e) =>
+              formDispatch({ type: "updateField", id: field.id, label: e.target.value })
+            }
           />
-          {isNestedField(field.type) && childrenFields(field.children || [], field.id)}
+          {isNestedField(field.type) && renderChildren(field.children || [], field.id)}
         </Fragment>
       ))}
 
       <div className="mt-8 w-full border-t-2 border-dashed border-gray-500 pt-4">
         <Input
-          value={newField}
-          onChange={(e) => setNewField(e.target.value)}
+          value={newFieldState.label}
+          onChange={(e) =>
+            newFieldDispatch({ type: "updateNewFieldLabel", label: e.target.value })
+          }
           placeholder="Question"
         />
-        {isNestedField(newFieldType) && childrenFields(newFieldChildren)}
+        {isNestedField(newFieldState.type) && renderChildren(newFieldState.children)}
         <div className="mt-4 flex items-center justify-between gap-2">
           <Select
-            value={newFieldType}
-            onChange={(e) => setNewFieldType(e.target.value as FieldKind)}
+            value={newFieldState.type}
+            onChange={(e) =>
+              newFieldDispatch({
+                type: "updateNewFieldType",
+                kind: e.target.value as FormFieldType["type"],
+              })
+            }
             name="fieldType"
             options={formFieldTypeOptions}
           />
-          <Button text="Add Field" onClick={addField} fullWidth />
+          <Button
+            text="Add Field"
+            onClick={() => {
+              formDispatch({
+                type: "addField",
+                payload: {
+                  label: newFieldState.label,
+                  type: newFieldState.type,
+                  children: newFieldState.children,
+                },
+              })
+              newFieldDispatch({ type: "resetNewField" })
+            }}
+            fullWidth
+          />
         </div>
       </div>
 
       <div className="mt-8 grid w-full grid-cols-2 gap-2">
-        <Button text="Reset Form" onClick={resetForm} fullWidth inverted />
+        <Button
+          text="Reset Form"
+          onClick={() => formDispatch({ type: "resetForm" })}
+          fullWidth
+          inverted
+        />
         <div className="flex items-center justify-center">
           <label
             htmlFor="autoSaveCheckbox"
@@ -254,7 +211,10 @@ export default function FormBuilder(props: { formId: number }) {
                 id="autoSaveCheckbox"
                 checked={formState.autoSave}
                 onChange={(e) =>
-                  setFormState({ ...formState, autoSave: e.target.checked })
+                  formDispatch({
+                    type: "updateFormAutoSave",
+                    autoSave: e.target.checked,
+                  })
                 }
                 className="sr-only"
               />

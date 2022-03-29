@@ -1,3 +1,4 @@
+import { FieldKind, nestedSubFieldKind } from "../types/fieldTypes"
 import { FormQuizType, FormType } from "../types/formTypes"
 
 export const getLocalForms = (): FormType[] =>
@@ -44,4 +45,8 @@ export const loadQuizForm = (id: number) => {
 
 export const saveQuizForm = (form: FormQuizType) => {
   localStorage.setItem(`answeredForm_${form.id}`, JSON.stringify(form))
+}
+
+export const isNestedField = (field: FieldKind) => {
+  return nestedSubFieldKind.includes(field as any)
 }

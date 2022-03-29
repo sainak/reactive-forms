@@ -1,8 +1,13 @@
 import { Link, navigate } from "raviger"
 import React, { Fragment, useCallback, useEffect, useRef, useState } from "react"
-import { fieldKind, FormFieldChildType } from "../types/fieldTypes"
+import { FieldKind, FormFieldChildType } from "../types/fieldTypes"
 import { FormType } from "../types/formTypes"
-import { getInitialState, saveForms, updatedForms } from "../utils/formUtils"
+import {
+  getInitialState,
+  isNestedField,
+  saveForms,
+  updatedForms,
+} from "../utils/formUtils"
 import Button from "./Button"
 import Input from "./Input"
 import Select, { SelectItems } from "./Select"
@@ -21,15 +26,13 @@ const formFieldTypes: SelectItems[] = [
   { label: "Multi Select", value: "select-multiple" },
 ]
 
-const nestedFieldTypes = ["radio", "select-multiple", "select"]
-
 export default function FormBuilder(props: { formId: number }) {
   const [formState, setFormState] = useState<FormType>(() =>
     getInitialState(props.formId)
   )
   const [newField, setNewField] = useState("")
   const [isSaved, setIsSaved] = useState(false)
-  const [newFieldType, setNewFieldType] = useState<fieldKind>("text")
+  const [newFieldType, setNewFieldType] = useState<FieldKind>("text")
   const [newFieldChildren, setNewFieldChildren] = useState<FormFieldChildType[]>([])
   const formTitleRef = useRef<HTMLInputElement>(null)
 
@@ -150,7 +153,7 @@ export default function FormBuilder(props: { formId: number }) {
         label: newField,
         type: newFieldType,
         value: "",
-        children: nestedFieldTypes.includes(newFieldType) ? newFieldChildren : [],
+        children: isNestedField(newFieldType) ? newFieldChildren : [],
       },
     ]
     setFormState({ ...formState, fields: newFields })
@@ -216,8 +219,7 @@ export default function FormBuilder(props: { formId: number }) {
             placeholder="Question"
             onChange={(e) => updateFieldQuestion(field.id, e.target.value)}
           />
-          {nestedFieldTypes.includes(field.type) &&
-            childrenFields(field.children || [], field.id)}
+          {isNestedField(field.type) && childrenFields(field.children || [], field.id)}
         </Fragment>
       ))}
 
@@ -227,11 +229,11 @@ export default function FormBuilder(props: { formId: number }) {
           onChange={(e) => setNewField(e.target.value)}
           placeholder="Question"
         />
-        {nestedFieldTypes.includes(newFieldType) && childrenFields(newFieldChildren)}
+        {isNestedField(newFieldType) && childrenFields(newFieldChildren)}
         <div className="mt-4 flex items-center justify-between gap-2">
           <Select
             value={newFieldType}
-            onChange={(e) => setNewFieldType(e.target.value as fieldKind)}
+            onChange={(e) => setNewFieldType(e.target.value as FieldKind)}
             name="fieldType"
             options={formFieldTypes}
           />

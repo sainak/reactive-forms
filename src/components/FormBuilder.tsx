@@ -12,7 +12,7 @@ import Button from "./Button"
 import Input from "./Input"
 import Select, { SelectItems } from "./Select"
 
-const formFieldTypes: SelectItems[] = [
+const formFieldTypeOptions: SelectItems[] = [
   { label: "Text", value: "text" },
   { label: "Number", value: "number" },
   { label: "Telephone", value: "tel" },
@@ -235,7 +235,7 @@ export default function FormBuilder(props: { formId: number }) {
             value={newFieldType}
             onChange={(e) => setNewFieldType(e.target.value as FieldKind)}
             name="fieldType"
-            options={formFieldTypes}
+            options={formFieldTypeOptions}
           />
           <Button text="Add Field" onClick={addField} fullWidth />
         </div>

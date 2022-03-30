@@ -1,12 +1,15 @@
 import { ClipboardListIcon, LightBulbIcon, TrashIcon } from "@heroicons/react/outline"
 import { Link, navigate, useQueryParams } from "raviger"
 import React, { useEffect, useState } from "react"
+import useTitle from "../hooks/useTitle"
 import { FormType } from "../types/formTypes"
 import { getLocalForms, saveForms } from "../utils/formUtils"
 import { SearchBar } from "./SearchBar"
 
 export default function FormsList(props: {}) {
-  const [forms, setForms] = useState(getLocalForms())
+  useTitle("Home")
+
+  const [forms, setForms] = useState(() => getLocalForms())
   const [{ search }, setQuery] = useQueryParams()
   const [searchString, setSearchString] = useState(() => search ?? "")
 

@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react"
+import useTitle from "../hooks/useTitle"
 import formBuilderReducer from "../reducers/formBuilderReducer"
 import newFieldReducer from "../reducers/newFieldReducer"
 import { FormFieldChildType, FormFieldType } from "../types/fieldTypes"
@@ -35,6 +36,8 @@ const formFieldTypeOptions: SelectItems[] = [
 ]
 
 export default function FormBuilder(props: { formId: number }) {
+  useTitle("Form Builder")
+
   const [formState, formDispatch] = useReducer(
     formBuilderReducer,
     getInitialState(props.formId)
@@ -57,14 +60,9 @@ export default function FormBuilder(props: { formId: number }) {
   }, [formState])
 
   useEffect(() => {
-    const oldTitle = document.title
-    document.title = "Form Editor"
     formState.id !== props.formId &&
       navigate(`/form/${formState.id}`, { replace: true })
     formTitleRef.current?.focus()
-    return () => {
-      document.title = oldTitle
-    }
   }, [formState.id, props.formId])
 
   useEffect(() => {

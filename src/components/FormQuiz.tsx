@@ -1,5 +1,6 @@
 import { Link, navigate } from "raviger"
 import { useEffect, useReducer, useState } from "react"
+import useTitle from "../hooks/useTitle"
 import { ReactComponent as CircleIcon } from "../img/circle.svg"
 import formQuizReducer from "../reducers/formQuizReducer"
 import { loadQuizForm, saveQuizForm } from "../utils/formUtils"
@@ -7,6 +8,8 @@ import Button from "./Button"
 import FormQuizElement from "./FormQuizField"
 
 export default function FromQuiz(props: { attemptId: number; questionId: number }) {
+  useTitle("Preview")
+
   const [quizState, quizDispatch] = useReducer(
     formQuizReducer,
     loadQuizForm(props.attemptId)

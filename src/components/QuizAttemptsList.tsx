@@ -1,10 +1,13 @@
 import { TrashIcon } from "@heroicons/react/outline"
 import { Link, navigate, useQueryParams } from "raviger"
 import React, { useEffect, useState } from "react"
+import useTitle from "../hooks/useTitle"
 import { loadAllQuizForms } from "../utils/formUtils"
 import { SearchBar } from "./SearchBar"
 
 export default function QuizAttemptsList(props: {}) {
+  useTitle("Quiz Attempts")
+
   const [forms, setForms] = useState(() => loadAllQuizForms())
   const [{ search, formId }, setQuery] = useQueryParams()
   const [searchString, setSearchString] = useState(() => search ?? "")

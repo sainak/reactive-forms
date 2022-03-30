@@ -22,7 +22,7 @@ const routes = [
 export default function Header() {
   return (
     <div className="mb-4 flex flex-wrap items-center gap-2">
-      <Logo className="mr-4 h-16 w-16 animate-pinwheel" />
+      <Logo className="mr-4 h-10 w-10 animate-pinwheel" />
       {routes.map((route) => (
         <ActiveLink
           key={route.id}

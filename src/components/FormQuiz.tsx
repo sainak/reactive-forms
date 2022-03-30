@@ -1,32 +1,20 @@
 import { Link, navigate } from "raviger"
-import { useEffect, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { ReactComponent as CircleIcon } from "../img/circle.svg"
-import { FormQuizType } from "../types/formTypes"
+import formQuizReducer from "../reducers/formQuizReducer"
 import { loadQuizForm, saveQuizForm } from "../utils/formUtils"
 import Button from "./Button"
 import FormQuizElement from "./FormQuizField"
 
 export default function FromQuiz(props: { attemptId: number; questionId: number }) {
-  const [quizState, setQuizState] = useState<FormQuizType>(() => {
-    return loadQuizForm(props.attemptId)
-  })
-
+  const [quizState, quizDispatch] = useReducer(
+    formQuizReducer,
+    loadQuizForm(props.attemptId)
+  )
   const [isSaved, setIsSaved] = useState(false)
 
-  const updateFieldValue = (key: number, value: string) => {
-    setQuizState({
-      ...quizState,
-      fields: quizState.fields.map((field) => {
-        if (field.id === key) {
-          return { ...field, value }
-        }
-        return field
-      }),
-    })
-  }
-
   const submitForm = () => {
-    setQuizState({ ...quizState, answered: true })
+    quizDispatch({ type: "submitForm" })
     saveQuizForm(quizState)
     navigate(`/preview/${quizState.id}`, { replace: true })
   }
@@ -95,7 +83,9 @@ export default function FromQuiz(props: { attemptId: number; questionId: number 
           <div className="flex  w-full flex-col gap-2">
             <FormQuizElement
               {...quizState.fields[props.questionId]}
-              updateFieldValueCB={updateFieldValue}
+              updateFieldValueCB={(id, value) => {
+                quizDispatch({ type: "updateField", id, value })
+              }}
             />
           </div>
           <div className="mt-4 flex w-full justify-between">

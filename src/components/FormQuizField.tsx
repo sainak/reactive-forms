@@ -83,6 +83,7 @@ function FormQuizField(props: FormInputProps) {
           selectedItems={props.value.split(",")}
           items={props.children}
           onChange={(value) => props.updateFieldValueCB?.(props.id, value)}
+          isListOpen={false}
         />
       )
     default:

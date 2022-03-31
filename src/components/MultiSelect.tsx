@@ -77,6 +77,7 @@ export default function MultiSelect({ isListOpen = true, ...props }: MultiSelect
   const getTitle = () => {
     switch (selectedItems.size) {
       case 0:
+        if (props.disabled) return "No items selected"
         return "Select items"
       case 1:
         return "1 item selected"

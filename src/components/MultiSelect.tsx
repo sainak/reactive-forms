@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from "@heroicons/react/outline"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import useClickAway from "../hooks/useClickAway"
 import { FormFieldChildType } from "../types/fieldTypes"
 
 interface MultiSelectProps {
@@ -19,6 +20,8 @@ export default function MultiSelect({ isListOpen = true, ...props }: MultiSelect
   })
 
   const [isListOpenState, setIsListOpen] = useState(isListOpen)
+
+  const ref = useRef<HTMLDivElement>(null)
 
   const addItem = (itemId: string) => {
     setSelectedItems((prev) => new Set(prev).add(itemId))
@@ -86,8 +89,10 @@ export default function MultiSelect({ isListOpen = true, ...props }: MultiSelect
     props.onChange([...selectedItems].join(","))
   }, [selectedItems])
 
+  useClickAway(ref, () => setIsListOpen(() => false))
+
   return (
-    <div>
+    <div ref={ref}>
       <button
         type="button"
         onClick={toggleList}

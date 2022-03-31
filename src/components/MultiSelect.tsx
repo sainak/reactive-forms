@@ -90,7 +90,7 @@ export default function MultiSelect({ isListOpen = true, ...props }: MultiSelect
     props.onChange([...selectedItems].join(","))
   }, [selectedItems])
 
-  useClickAway(ref, () => setIsListOpen(() => false))
+  useClickAway(ref, () => setIsListOpen(false), true)
 
   return (
     <div ref={ref}>

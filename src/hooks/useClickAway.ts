@@ -5,6 +5,7 @@ const defaultEvents = ["mousedown", "touchstart"]
 const useClickAway = <E extends Event = Event>(
   ref: RefObject<HTMLElement | null>,
   onClickAway: (event: E) => void,
+  triggerOwnClick: boolean = false,
   events: string[] = defaultEvents
 ) => {
   const savedCallback = useRef(onClickAway)
@@ -15,8 +16,12 @@ const useClickAway = <E extends Event = Event>(
     const handler = (event: Event) => {
       const { current: el } = ref
       el && !el.contains(event.target as Node) && savedCallback.current(event as E)
-      // if target is has click event then propagate it
-      if (event.target instanceof HTMLElement && event.target.click) {
+      // trigger click event if the target has its own click handler
+      if (
+        triggerOwnClick &&
+        event.target instanceof HTMLElement &&
+        event.target.click
+      ) {
         event.target.click()
       }
     }

@@ -1,3 +1,4 @@
+import { Errors, Form } from "../types/api/api"
 import { FieldKind, nestedSubFieldKind } from "../types/fieldTypes"
 import { FormQuizType, FormType } from "../types/formTypes"
 
@@ -49,4 +50,19 @@ export const saveQuizForm = (form: FormQuizType) => {
 
 export const isNestedField = (field: FieldKind) => {
   return Object.values(nestedSubFieldKind).includes(field as any)
+}
+
+export const validateForm = (form: Form) => {
+  const errors: Errors<Form> = {}
+
+  if (form.title.length < 1) {
+    errors.title = "Title is required"
+  } else if (form.title.length > 100) {
+    errors.title = "Title must be less than 100 characters"
+  }
+
+  if (form.description && form.description.length > 1000) {
+    errors.description = "Description must be less than 100 characters"
+  }
+  return errors
 }

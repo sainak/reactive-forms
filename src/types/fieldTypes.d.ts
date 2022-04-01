@@ -1,5 +1,5 @@
 //https://stackoverflow.com/a/54061487/9420669
-export const singleSubFieldKind = [
+export enum singleSubFieldKind {
   "text",
   "textarea",
   "number",
@@ -9,17 +9,17 @@ export const singleSubFieldKind = [
   "email",
   "url",
   "tel",
-] as const
+}
 
-export const nestedSubFieldKind = [
+export enum nestedSubFieldKind {
   "radio",
   "select-multiple",
   "select",
   "checkbox",
-] as const
+}
 
-export type SingleSubFieldKind = typeof singleSubFieldKind[number]
-export type NestedSubFieldKind = typeof nestedSubFieldKind[number]
+export type SingleSubFieldKind = keyof typeof singleSubFieldKind
+export type NestedSubFieldKind = keyof typeof nestedSubFieldKind
 
 export type FieldKind = SingleSubFieldKind | NestedSubFieldKind
 

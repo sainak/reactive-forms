@@ -48,5 +48,5 @@ export const saveQuizForm = (form: FormQuizType) => {
 }
 
 export const isNestedField = (field: FieldKind) => {
-  return nestedSubFieldKind.includes(field as any)
+  return Object.values(nestedSubFieldKind).includes(field as any)
 }

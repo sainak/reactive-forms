@@ -1,15 +1,15 @@
 import React from "react"
-import { fieldKind } from "../types/fieldTypes"
+import { FieldKind } from "../types/fieldTypes"
 
 export interface SelectItems {
   id?: string
   label: string
-  value: fieldKind
+  value: FieldKind
 }
 
 interface SelectProps {
   id?: string
-  value?: fieldKind
+  value?: FieldKind
   name: string
   defaultValue?: string
   onChange?: ((e: React.ChangeEvent<HTMLSelectElement>) => void) | undefined

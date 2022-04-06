@@ -1,3 +1,3 @@
 import { Form } from "./api"
 
-export type FormRequest = Pick<Form, "title" | "description" | "is_public">
+export type NewFormRequest = Pick<Form, "title" | "description" | "is_public">

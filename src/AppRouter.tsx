@@ -3,6 +3,7 @@ import About from "./components/About"
 import FormBuilder from "./components/FormBuilder"
 import FromQuiz from "./components/FormQuiz"
 import FormsList from "./components/FormsList"
+import Login from "./components/Login"
 import QuizAttemptsList from "./components/QuizAttemptsList"
 
 const routes = {
@@ -16,6 +17,7 @@ const routes = {
     <FromQuiz attemptId={Number(id)} questionId={Number(qid)} />
   ),
   "/about": () => <About />,
+  "/login": () => <Login />,
 }
 
 export default function AppRouter() {

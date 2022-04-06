@@ -4,12 +4,16 @@ import React, { useEffect, useState } from "react"
 import useTitle from "../hooks/useTitle"
 import { FormType } from "../types/formTypes"
 import { getLocalForms, saveForms } from "../utils/formUtils"
+import Button from "./Button"
+import CreateForm from "./CreateForm"
+import Modal from "./Modal"
 import { SearchBar } from "./SearchBar"
 
 export default function FormsList(props: {}) {
   useTitle("Home")
 
   const [forms, setForms] = useState(() => getLocalForms())
+  const [newForm, setNewForm] = useState(false)
   const [{ search }, setQuery] = useQueryParams()
   const [searchString, setSearchString] = useState(() => search ?? "")
 
@@ -102,12 +106,11 @@ export default function FormsList(props: {}) {
           </div>
         ))}
       </div>
-      <Link
-        href="/form/new"
-        className="block w-full rounded-lg bg-sky-500 px-5 py-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 "
-      >
-        New Form
-      </Link>
+      <Button text="New Form" onClick={() => setNewForm(true)} fullWidth />
+
+      <Modal isOpen={newForm} closeCB={() => setNewForm(false)}>
+        <CreateForm />
+      </Modal>
     </>
   )
 }

@@ -33,6 +33,25 @@ export default function Header() {
           {route.page}
         </ActiveLink>
       ))}
+      {localStorage.getItem("token") && localStorage.getItem("token") !== "" ? (
+        <button
+          className="rounded-full border-2 px-4 py-2 capitalize transition-colors duration-300 hover:bg-sky-600 hover:text-white"
+          onClick={() => {
+            localStorage.removeItem("token")
+            window.location.reload()
+          }}
+        >
+          Logout
+        </button>
+      ) : (
+        <ActiveLink
+          href="/login"
+          exactActiveClass="bg-sky-500 text-white"
+          className="rounded-full border-2 px-4 py-2 capitalize transition-colors duration-300 hover:bg-sky-600 hover:text-white"
+        >
+          Login
+        </ActiveLink>
+      )}
     </div>
   )
 }

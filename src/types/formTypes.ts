@@ -2,8 +2,9 @@ import { FormFieldType } from "./fieldTypes"
 
 export interface FormType {
   id: number
-  label: string
-  autoSave: boolean
+  title: string
+  description: string | null
+  is_public: boolean
   fields: FormFieldType[]
 }
 

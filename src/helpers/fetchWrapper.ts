@@ -3,7 +3,7 @@ import { API_BASE_URL } from "../utils/constants"
 
 type RequestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 
-export default async function apiRequest(
+export default async function fetchWrapper(
   endpoint: string,
   method: RequestMethod = "GET",
   payload: any = null,

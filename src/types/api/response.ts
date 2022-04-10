@@ -1,4 +1,4 @@
-import { Field, Form } from "./api"
+import { Field, Form, Submission } from "./api"
 
 export type Page<T> = {
   count: number
@@ -14,3 +14,5 @@ export type LoginResponse = {
 export type FromResponse = Form
 
 export type FieldResponse = Field
+
+export type SubmissionResponse = Submission

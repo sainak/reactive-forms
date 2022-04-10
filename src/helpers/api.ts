@@ -4,8 +4,15 @@ import {
   FullFieldRequest,
   LoginRequest,
   PageParams,
+  SubmissionRequest,
 } from "../types/api/request"
-import { FieldResponse, FromResponse, LoginResponse, Page } from "../types/api/response"
+import {
+  FieldResponse,
+  FromResponse,
+  LoginResponse,
+  Page,
+  SubmissionResponse,
+} from "../types/api/response"
 import fetchWrapper from "./fetchWrapper"
 
 export const authApi = {
@@ -88,5 +95,26 @@ export const formFieldApi = {
   },
   delete: (formId: number, fieldId: number) => {
     return fetchWrapper(`forms/${formId}/fields/${fieldId}/`, "DELETE")
+  },
+}
+
+export const submissionApi = {
+  list: (formId: number, page: PageParams) => {
+    return fetchWrapper(`forms/${formId}/submissions/`, "GET", page) as Promise<
+      Page<SubmissionResponse>
+    >
+  },
+  post: (formId: number, data: SubmissionRequest) => {
+    return fetchWrapper(
+      `forms/${formId}/submissions/`,
+      "POST",
+      data
+    ) as Promise<SubmissionResponse>
+  },
+  get: (formId: number, submissionId: number) => {
+    return fetchWrapper(
+      `forms/${formId}/submissions/${submissionId}/`,
+      "GET"
+    ) as Promise<SubmissionResponse>
   },
 }

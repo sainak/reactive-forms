@@ -33,19 +33,14 @@ type fieldMeta = {
 export interface Field {
   /** ID */
   id: number
-
   /** Label */
   label: string
-
   /** Kind */
   kind: "TEXT" | "DROPDOWN" | "RADIO" | "GENERIC" // we are storing field type in meta.kind
-
   /** Dropdown Options */
   options: object | null // we are storing children in meta.children
-
   /** Value */
   value: string | null
-
   /**
    * Meta
    * Additional data for the field
@@ -53,10 +48,23 @@ export interface Field {
   meta: fieldMeta
 }
 
-export interface DummyForm {
-  /** Id */
-  id: number
+export interface Answer {
+  /* Form Field ID */
+  form_field: number
+  /* Value */
+  value: string
+}
 
-  /** Title */
-  title: string
+export interface Submission {
+  /** ID */
+  id: number
+  /** Form */
+  form: Form
+  /** Answers */
+  answers: Answer[]
+  /**
+   * Created date
+   * @format date-time
+   */
+  created_date: string
 }

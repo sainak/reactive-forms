@@ -1,4 +1,9 @@
-import { Field, Form } from "./api"
+import { Field, Form, Submission } from "./api"
+
+export type PageParams = {
+  limit: number
+  offset: number
+}
 
 export type LoginRequest = {
   username: string
@@ -11,7 +16,4 @@ export type FullFieldRequest = Omit<Field, "id">
 
 export type FieldRequest = Pick<FullFieldRequest, "label" | "meta">
 
-export type PageParams = {
-  limit: number
-  offset: number
-}
+export type SubmissionRequest = Pick<Submission, "answers">

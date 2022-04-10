@@ -1,11 +1,10 @@
 import { ClipboardListIcon, LightBulbIcon, TrashIcon } from "@heroicons/react/outline"
 import { Link, navigate, useQueryParams } from "raviger"
 import React, { useEffect, useState } from "react"
-import apiRequest from "../helpers/apiRequest"
+import { formApi } from "../helpers/api"
 import useTitle from "../hooks/useTitle"
 import { PageParams } from "../types/api/request"
-import { FromResponse, Page } from "../types/api/response"
-import { FormType } from "../types/formTypes"
+import { FromResponse } from "../types/api/response"
 import Button from "./Button"
 import CreateForm from "./CreateForm"
 import Modal from "./Modal"
@@ -31,25 +30,11 @@ export default function FormsList(props: {}) {
     setForms(filteredLocalForms)
     // saveForms(filteredLocalForms)
   }
-
-  const attemptQuiz = (form: FormType) => {
-    const quizForm = {
-      id: Number(new Date()),
-      formId: form.id,
-      label: form.label,
-      fields: form.fields,
-    }
-    localStorage.setItem(`answeredForm_${quizForm.id}`, JSON.stringify(quizForm))
-    navigate(`/preview/${quizForm.id}/0`)
-  }
-
-  const fetchForms = (page: PageParams, search?: string) => {
-    apiRequest("forms/", "GET", { ...page, search }).then(
-      (data: Page<FromResponse>) => {
-        setForms(data.results)
-        setPage({ ...page, count: data.count })
-      }
-    )
+  const fetchForms = (page: PageParams) => {
+    formApi.list(page).then((data) => {
+      setForms(data.results)
+      setPage({ ...page, count: data.count })
+    })
   }
 
   const filterForms = (search?: string) => {

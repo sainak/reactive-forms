@@ -1,13 +1,29 @@
+import { Field } from "../types/api/api"
 import { FieldKind, FormFieldChildType } from "../types/fieldTypes"
+
+type LoadFormAction = {
+  type: "loadForm"
+  payload: {
+    id: number
+    title: string
+    description: string | null
+    is_public: boolean
+  }
+}
+
+type LoadFieldsAction = {
+  type: "loadFields"
+  payload: Field[]
+}
 
 type UpdateFormTitleAction = {
   type: "updateFormTitle"
-  label: string
+  title: string
 }
 
-type UpdateFormAutoSaveAction = {
-  type: "updateFormAutoSave"
-  autoSave: boolean
+type UpdateFormDescriptionAction = {
+  type: "updateFormDescription"
+  description: string
 }
 
 type AddFieldAction = {
@@ -24,42 +40,15 @@ type RemoveFieldAction = {
   id: number
 }
 
-type UpdateFieldAction = {
-  type: "updateField"
-  id: number
-  label: string
-}
-
-type AddFieldChildAction = {
-  type: "addFieldChild"
-  parentId: number
-  label: string
-}
-
-type RemoveFieldChildAction = {
-  type: "removeFieldChild"
-  parentId: number
-  id: number
-}
-
-type UpdateFieldChildAction = {
-  type: "updateFieldChild"
-  parentId: number
-  id: number
-  label: string
-}
-
 type ResetFormAction = {
   type: "resetForm"
 }
 
 export type FormBuilderActions =
+  | LoadFormAction
+  | LoadFieldsAction
   | UpdateFormTitleAction
-  | UpdateFormAutoSaveAction
+  | UpdateFormDescriptionAction
   | AddFieldAction
   | RemoveFieldAction
-  | UpdateFieldAction
-  | AddFieldChildAction
-  | RemoveFieldChildAction
-  | UpdateFieldChildAction
   | ResetFormAction

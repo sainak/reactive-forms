@@ -1,11 +1,12 @@
 import { navigate } from "raviger"
 import { useState } from "react"
-import apiRequest from "../helpers/apiRequest"
+import { authApi } from "../helpers/api"
+import { LoginRequest } from "../types/api/request"
 import Button from "./Button"
 import Input from "./Input"
 
 export default function Login() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<LoginRequest>({
     username: "",
     password: "",
   })
@@ -17,7 +18,7 @@ export default function Login() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    apiRequest("auth-token/", "POST", form, false).then((data) => {
+    authApi.getToken(form).then((data) => {
       localStorage.setItem("token", data.token)
       navigate("/")
     })

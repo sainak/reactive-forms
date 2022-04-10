@@ -1,47 +1,60 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid"
 
-export default function Paginator(props: {
+interface PaginatorProps {
   count: number
   limit: number
   offset: number
   changePageCB: (offset: number) => void
-}) {
-  const { count, limit, offset, changePageCB } = props
+  objectName?: string
+}
 
+export default function Paginator({
+  count,
+  limit,
+  offset,
+  changePageCB,
+  objectName = "results",
+}: PaginatorProps) {
   return (
-    <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-      <div className="flex-1 flex justify-between sm:hidden">
+    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex flex-1 justify-between sm:hidden">
         <button
           onClick={() => changePageCB(offset - limit)}
-          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           disabled={offset === 0}
         >
           Previous
         </button>
         <button
           onClick={() => changePageCB(offset + limit)}
-          className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           disabled={offset + limit >= count}
         >
           Next
         </button>
       </div>
-      <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{offset + 1}</span> to{" "}
-            <span className="font-medium">{Math.min(offset + limit, count)}</span> of{" "}
-            <span className="font-medium">{count}</span> results
+            {count ? (
+              <>
+                Showing <span className="font-medium">{offset + 1}</span> to{" "}
+                <span className="font-medium">{Math.min(offset + limit, count)}</span>{" "}
+                of <span className="font-medium">{count}</span> {objectName}
+              </>
+            ) : (
+              <>No {objectName} found</>
+            )}
           </p>
         </div>
         <div>
           <nav
-            className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+            className="relative z-0 inline-flex -space-x-px rounded-md shadow-sm"
             aria-label="Pagination"
           >
             <button
               onClick={() => changePageCB(offset - limit)}
-              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
               disabled={offset === 0}
             >
               <span className="sr-only">Previous</span>
@@ -64,7 +77,7 @@ export default function Paginator(props: {
 
             <button
               onClick={() => changePageCB(offset + limit)}
-              className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
               disabled={offset + limit >= count}
             >
               <span className="sr-only">Next</span>

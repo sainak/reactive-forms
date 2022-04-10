@@ -87,6 +87,6 @@ export const formFieldApi = {
     ) as Promise<FieldResponse>
   },
   delete: (formId: number, fieldId: number) => {
-    return fetchWrapper(`/forms/${formId}/fields/${fieldId}/`, "DELETE")
+    return fetchWrapper(`forms/${formId}/fields/${fieldId}/`, "DELETE")
   },
 }

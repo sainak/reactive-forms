@@ -40,6 +40,6 @@ export default async function fetchWrapper(
     .catch((error) => {
       console.error(error)
       // TODO: parse error json and use react alerts
-      alert(error)
+      // alert(error)
     })
 }

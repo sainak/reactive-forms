@@ -21,7 +21,7 @@ export default function FormsList(props: {}) {
 
   const [page, setPage] = useState({
     count: 0,
-    limit: 2, //TODO: set this to 10 after testing
+    limit: 7,
     offset: 0,
   })
 

@@ -42,7 +42,7 @@ export default function FormBuilder(props: { formId: number }) {
 
   const [page, setPage] = useState({
     count: 0,
-    limit: 4, //TODO: set this to 20 after testing
+    limit: 20,
     offset: 0,
   })
 

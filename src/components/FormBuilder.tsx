@@ -122,10 +122,12 @@ export default function FormBuilder(props: { formId: number }) {
       }
       formFieldApi.post(props.formId, payload).then((data) => {
         // set page as last page
-        setPage({
-          ...page,
-          offset: Math.floor(page.count / page.limit) * page.limit,
-        })
+        const lastPage = Math.floor(page.count / page.limit) * page.limit
+        if (page.offset !== lastPage) {
+          setPage({ ...page, offset: lastPage })
+        } else {
+          fetchFields(page)
+        }
         newFieldDispatch({ type: "resetNewField" })
         //loading false
       })

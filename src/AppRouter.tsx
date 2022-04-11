@@ -21,7 +21,7 @@ const routes = {
   "/": () => <FormsList />,
   "/attempts": () => <QuizAttemptsList />,
   "/form/:id": ({ id }: { id: string }) => <FormBuilder formId={Number(id)} />,
-  "/quiz/:id/:qid": ({ formId, qid }: { formId: string; qid: string }) => (
+  "/quiz/:formId/:qid": ({ formId, qid }: { formId: string; qid: string }) => (
     <FromQuiz formId={Number(formId)} questionId={Number(qid)} />
   ),
   "/preview/:formId/:attemptId": ({

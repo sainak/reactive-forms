@@ -268,10 +268,10 @@ export default function FormBuilder(props: { formId: number }) {
           Close
         </Link>
         <Link
-          href="/"
+          href={`/quiz/${props.formId}/0`}
           className="block w-full rounded-lg bg-sky-500 px-5 py-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 "
         >
-          Preview
+          Quiz
         </Link>
       </div>
     </div>

@@ -100,20 +100,20 @@ export const formFieldApi = {
 
 export const submissionApi = {
   list: (formId: number, page: PageParams) => {
-    return fetchWrapper(`forms/${formId}/submissions/`, "GET", page) as Promise<
+    return fetchWrapper(`forms/${formId}/submission/`, "GET", page) as Promise<
       Page<SubmissionResponse>
     >
   },
   post: (formId: number, data: SubmissionRequest) => {
     return fetchWrapper(
-      `forms/${formId}/submissions/`,
+      `forms/${formId}/submission/`,
       "POST",
       data
     ) as Promise<SubmissionResponse>
   },
   get: (formId: number, submissionId: number) => {
     return fetchWrapper(
-      `forms/${formId}/submissions/${submissionId}/`,
+      `forms/${formId}/submission/${submissionId}/`,
       "GET"
     ) as Promise<SubmissionResponse>
   },

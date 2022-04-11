@@ -1,120 +1,122 @@
-import { Link, navigate } from "raviger"
-import { useEffect, useReducer, useState } from "react"
+import { navigate } from "raviger"
+import { useEffect, useState } from "react"
+import { formApi, formFieldApi, submissionApi } from "../helpers/api"
 import useTitle from "../hooks/useTitle"
-import { ReactComponent as CircleIcon } from "../img/circle.svg"
-import formQuizReducer from "../reducers/formQuizReducer"
-import { loadQuizForm, saveQuizForm } from "../utils/formUtils"
+import { Answer, Field, Form } from "../types/api/api"
 import Button from "./Button"
 import FormQuizElement from "./FormQuizField"
 
-export default function FromQuiz(props: { attemptId: number; questionId: number }) {
-  useTitle("Preview")
+interface FormQuizProps {
+  formId: number
+  questionId: number
+}
 
-  const [quizState, quizDispatch] = useReducer(
-    formQuizReducer,
-    loadQuizForm(props.attemptId)
-  )
-  const [isSaved, setIsSaved] = useState(false)
+export default function FromQuiz({ formId, questionId }: FormQuizProps) {
+  useTitle("Quiz")
+
+  const [form, setForm] = useState<Pick<Form, "id" | "title" | "description">>({
+    id: formId,
+    title: "",
+    description: "",
+  })
+  const [field, setField] = useState<Field>()
+  const [answers, setAnswers] = useState<Answer[]>([])
+  const [page, setPage] = useState({
+    count: 0,
+    limit: 1,
+    offset: questionId,
+  })
 
   const submitForm = () => {
-    quizDispatch({ type: "submitForm" })
-    saveQuizForm(quizState)
-    navigate(`/preview/${quizState.id}`, { replace: true })
+    submissionApi.post(formId, { answers }).then((data) => {
+      navigate(`/preview/${formId}/${data.id}`, { replace: true })
+    })
+  }
+
+  const updateAnswer = (id: number, value: string) => {
+    const newAnswers = answers.map((answer) => {
+      if (answer.form_field === id) {
+        return { ...answer, value }
+      }
+      return answer
+    })
+    setAnswers(() => newAnswers)
   }
 
   useEffect(() => {
-    setIsSaved(false)
-    let timeout = setTimeout(() => {
-      saveQuizForm(quizState)
-      setIsSaved(true)
-    }, 2000)
-    return () => clearTimeout(timeout)
-  }, [quizState])
+    formApi.get(formId).then((data) => {
+      const { id, title, description } = data
+      setForm({ id, title, description })
+    })
+  }, [])
 
-  if (!quizState.id) {
-    return (
-      <div className="text-center text-xl">
-        The resource you are looking for does not exist.
-      </div>
-    )
-  }
+  useEffect(() => {
+    formFieldApi.list(formId, page).then((data) => {
+      setField(data.results[0])
+      const found = answers.some((answer) => answer.form_field === data.results[0].id)
+      if (!found) {
+        setAnswers([...answers, { form_field: data.results[0].id, value: "" }])
+      }
+      setPage({ ...page, count: data.count })
+      navigate(`/quiz/${formId}/${page.offset}`)
+      //loading false
+    })
+  }, [page.offset])
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="my-2 w-full border-b-2 border-gray-400 p-2 text-center text-xl font-semibold">
-        {quizState.label}
+      <div className="w-full">
+        <div className=" w-full text-center text-xl font-semibold">{form?.title}</div>
+
+        <div className="mb-2 w-full border-b-2 border-gray-400 pb-2 text-center text-sm">
+          {form?.description}
+        </div>
       </div>
-      {quizState.fields.length === 0 ? (
-        <div className="text-center text-xl">No questions found.</div>
-      ) : quizState.answered ? (
-        <>
-          <span className="mb-4 w-full text-right text-gray-600">
-            Attempt Id: {quizState.id}
-          </span>
-          <div className="flex w-full flex-col gap-2">
-            {quizState.fields.map((field) => (
-              <FormQuizElement
-                key={field.id}
-                id={field.id}
-                label={field.label}
-                type={field.type}
-                value={field.value}
-                children={field.children}
-                updateFieldValueCB={undefined}
-              />
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="flex w-full flex-wrap gap-2 text-gray-600">
-            <div className="p-1">
-              <CircleIcon
-                className={`h-4 w-4 transition-colors duration-300 ${
-                  isSaved ? " text-green-500 " : " text-yellow-500 "
-                }`}
-              />
-            </div>
-            <span>
-              Question {props.questionId + 1} of {quizState.fields.length}
-            </span>
-            <span className="ml-auto">
-              Attempt Id: {quizState.id} | Question Id:{" "}
-              {quizState.fields[props.questionId]?.id ?? 0}
-            </span>
-          </div>
-          <div className="flex  w-full flex-col gap-2">
-            <FormQuizElement
-              {...quizState.fields[props.questionId]}
-              updateFieldValueCB={(id, value) => {
-                quizDispatch({ type: "updateField", id, value })
-              }}
-            />
-          </div>
-          <div className="mt-4 flex w-full justify-between">
-            {props.questionId === 0 || props.questionId > quizState.fields.length ? (
-              <div></div>
-            ) : (
-              <Link
-                className="block rounded-lg bg-sky-500 px-5 py-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 "
-                href={`/preview/${quizState.id}/${props.questionId - 1}`}
-              >
-                Previous
-              </Link>
-            )}
-            {props.questionId === quizState.fields.length - 1 ? (
-              <Button onClick={submitForm}>Submit</Button>
-            ) : (
-              <Link
-                className="block rounded-lg bg-sky-500 px-5 py-2 text-center text-white transition duration-300 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300 "
-                href={`/preview/${quizState.id}/${props.questionId + 1}`}
-              >
-                Next
-              </Link>
-            )}
-          </div>
-        </>
-      )}
+
+      <div className="flex w-full flex-wrap gap-2 text-gray-600">
+        <span>
+          Question {Math.min(page.offset + 1, page.count)} of {page.count}
+        </span>
+        <span className="ml-auto">
+          {`Form Id: ${form?.id ?? 0} | Question Id: ${field?.id ?? 0}`}
+        </span>
+      </div>
+      <div className="flex  w-full flex-col gap-2">
+        <FormQuizElement
+          id={field?.id ?? 0}
+          label={field?.label ?? ""}
+          type={field?.meta.kind ?? "text"}
+          children={field?.meta.children ?? []}
+          value={
+            answers.filter((answer) => answer.form_field === field?.id)[0]?.value ?? ""
+          }
+          updateFieldValueCB={updateAnswer}
+        />
+      </div>
+      <div className="mt-4 flex w-full justify-between">
+        {page.offset < 0 ? (
+          <div></div>
+        ) : (
+          <Button
+            onClick={() => {
+              setPage({ ...page, offset: page.offset - page.limit })
+            }}
+          >
+            Previous
+          </Button>
+        )}
+        {page.offset === page.count - 1 ? (
+          <Button onClick={submitForm}>Submit</Button>
+        ) : (
+          <Button
+            onClick={() => {
+              setPage({ ...page, offset: page.offset + page.limit })
+            }}
+          >
+            Next
+          </Button>
+        )}
+      </div>
     </div>
   )
 }

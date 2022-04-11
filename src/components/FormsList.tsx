@@ -29,6 +29,7 @@ export default function FormsList(props: {}) {
     const filteredLocalForms = forms.filter((formFilter) => formFilter.id !== id)
     formApi.delete(id).then(() => {
       setForms(filteredLocalForms)
+      setPage({ ...page, count: page.count - 1 })
     })
   }
   const fetchForms = (page: PageParams) => {

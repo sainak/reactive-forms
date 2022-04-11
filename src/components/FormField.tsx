@@ -78,10 +78,12 @@ export default function FormField({
 
   return (
     <Fragment key={field.id}>
-      <div className="mt-4 mb-2 flex w-full items-end gap-2">
-        <span className="mr-auto font-bold text-gray-600 ">Type: {field.type}</span>
+      <div className="mt-4 mb-2 flex w-full items-center gap-2">
+        <span className="mr-auto font-bold text-gray-600 mt-auto">
+          Type: <span className="capitalize">{field.type}</span>
+        </span>
         {loading && (
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+          <span className="animate-ping h-4 w-4 rounded-full bg-yellow-500 mr-2"></span>
         )}
         <Button text="Remove" onClick={() => removeFieldCB(field.id)} />
       </div>

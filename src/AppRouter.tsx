@@ -19,7 +19,9 @@ const publicRoutes = {
 const routes = {
   ...publicRoutes,
   "/": () => <FormsList />,
-  "/attempts": () => <QuizAttemptsList />,
+  "/attempts/:formId": ({ formId }: { formId: string }) => (
+    <QuizAttemptsList formId={Number(formId)} />
+  ),
   "/form/:id": ({ id }: { id: string }) => <FormBuilder formId={Number(id)} />,
   "/quiz/:formId/:qid": ({ formId, qid }: { formId: string; qid: string }) => (
     <FromQuiz formId={Number(formId)} questionId={Number(qid)} />

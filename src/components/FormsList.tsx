@@ -93,7 +93,7 @@ export default function FormsList(props: {}) {
             </Link>
             <Link
               className="ml-auto rounded-lg bg-yellow-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-yellow-700 "
-              href={`/attempts?formId=${form.id}`}
+              href={`/attempts/${form.id}`}
               title="attempts"
             >
               <ClipboardListIcon className="h-5 w-5 text-white" />
@@ -120,6 +120,7 @@ export default function FormsList(props: {}) {
         changePageCB={(offset) => {
           setPage({ ...page, offset })
         }}
+        objectName="forms"
       />
       <Button text="New Form" onClick={() => setNewForm(true)} fullWidth />
 

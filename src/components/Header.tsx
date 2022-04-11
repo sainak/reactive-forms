@@ -10,8 +10,8 @@ const routes = [
   },
   {
     id: 2,
-    page: "Attempts",
-    url: "/attempts",
+    page: "Submissions",
+    url: "/attempts/0",
   },
   {
     id: 9,

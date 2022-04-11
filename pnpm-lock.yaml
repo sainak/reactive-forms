@@ -3,6 +3,8 @@ lockfileVersion: 5.3
 specifiers:
   '@headlessui/react': ^1.5.0
   '@heroicons/react': ^1.0.6
+  '@sentry/react': ^6.19.6
+  '@sentry/tracing': ^6.19.6
   '@tailwindcss/forms': ^0.5.0
   '@types/react': ^18.0.1
   '@types/react-dom': ^18.0.0
@@ -23,6 +25,8 @@ specifiers:
 
 dependencies:
   '@heroicons/react': 1.0.6_react@18.0.0
+  '@sentry/react': 6.19.6_react@18.0.0
+  '@sentry/tracing': 6.19.6
   raviger: 4.0.0_react@18.0.0
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
@@ -369,6 +373,84 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
     dev: true
+
+  /@sentry/browser/6.19.6:
+    resolution: {integrity: sha512-V5QyY1cO1iuFCI78dOFbHV7vckbeQEPPq3a5dGSXlBQNYnd9Ec5xoxp5nRNpWQPOZ8/Ixt9IgRxdqVTkWib51g==}
+    engines: {node: '>=6'}
+    dependencies:
+      '@sentry/core': 6.19.6
+      '@sentry/types': 6.19.6
+      '@sentry/utils': 6.19.6
+      tslib: 1.14.1
+    dev: false
+
+  /@sentry/core/6.19.6:
+    resolution: {integrity: sha512-biEotGRr44/vBCOegkTfC9rwqaqRKIpFljKGyYU6/NtzMRooktqOhjmjmItNCMRknArdeaQwA8lk2jcZDXX3Og==}
+    engines: {node: '>=6'}
+    dependencies:
+      '@sentry/hub': 6.19.6
+      '@sentry/minimal': 6.19.6
+      '@sentry/types': 6.19.6
+      '@sentry/utils': 6.19.6
+      tslib: 1.14.1
+    dev: false
+
+  /@sentry/hub/6.19.6:
+    resolution: {integrity: sha512-PuEOBZxvx3bjxcXmWWZfWXG+orojQiWzv9LQXjIgroVMKM/GG4QtZbnWl1hOckUj7WtKNl4hEGO2g/6PyCV/vA==}
+    engines: {node: '>=6'}
+    dependencies:
+      '@sentry/types': 6.19.6
+      '@sentry/utils': 6.19.6
+      tslib: 1.14.1
+    dev: false
+
+  /@sentry/minimal/6.19.6:
+    resolution: {integrity: sha512-T1NKcv+HTlmd8EbzUgnGPl4ySQGHWMCyZ8a8kXVMZOPDzphN3fVIzkYzWmSftCWp0rpabXPt9aRF2mfBKU+mAQ==}
+    engines: {node: '>=6'}
+    dependencies:
+      '@sentry/hub': 6.19.6
+      '@sentry/types': 6.19.6
+      tslib: 1.14.1
+    dev: false
+
+  /@sentry/react/6.19.6_react@18.0.0:
+    resolution: {integrity: sha512-RnWZ7clg1lRgf/JFNnTOs8ZPCv566E5CwFXXb6swyjPYUMcIn95XujDQU9SU4hXZ4qXd9BRvifxqyxvq0LMXNw==}
+    engines: {node: '>=6'}
+    peerDependencies:
+      react: 15.x || 16.x || 17.x || 18.x
+    dependencies:
+      '@sentry/browser': 6.19.6
+      '@sentry/minimal': 6.19.6
+      '@sentry/types': 6.19.6
+      '@sentry/utils': 6.19.6
+      hoist-non-react-statics: 3.3.2
+      react: 18.0.0
+      tslib: 1.14.1
+    dev: false
+
+  /@sentry/tracing/6.19.6:
+    resolution: {integrity: sha512-STZdlEtTBqRmPw6Vjkzi/1kGkGPgiX0zdHaSOhSeA2HXHwx7Wnfu7veMKxtKWdO+0yW9QZGYOYqp0GVf4Swujg==}
+    engines: {node: '>=6'}
+    dependencies:
+      '@sentry/hub': 6.19.6
+      '@sentry/minimal': 6.19.6
+      '@sentry/types': 6.19.6
+      '@sentry/utils': 6.19.6
+      tslib: 1.14.1
+    dev: false
+
+  /@sentry/types/6.19.6:
+    resolution: {integrity: sha512-QH34LMJidEUPZK78l+Frt3AaVFJhEmIi05Zf8WHd9/iTt+OqvCHBgq49DDr1FWFqyYWm/QgW/3bIoikFpfsXyQ==}
+    engines: {node: '>=6'}
+    dev: false
+
+  /@sentry/utils/6.19.6:
+    resolution: {integrity: sha512-fAMWcsguL0632eWrROp/vhPgI7sBj/JROWVPzpabwVkm9z3m1rQm6iLFn4qfkZL8Ozy6NVZPXOQ7EXmeU24byg==}
+    engines: {node: '>=6'}
+    dependencies:
+      '@sentry/types': 6.19.6
+      tslib: 1.14.1
+    dev: false
 
   /@svgr/babel-plugin-add-jsx-attribute/6.0.0_@babel+core@7.17.9:
     resolution: {integrity: sha512-MdPdhdWLtQsjd29Wa4pABdhWbaRMACdM1h31BY+c6FghTZqNGT7pEYdBoaGeKtdTOBC/XNFQaKVj+r/Ei2ryWA==}
@@ -1084,6 +1166,12 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /hoist-non-react-statics/3.3.2:
+    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+    dependencies:
+      react-is: 16.13.1
+    dev: false
+
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -1358,6 +1446,10 @@ packages:
       scheduler: 0.21.0
     dev: false
 
+  /react-is/16.13.1:
+    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: false
+
   /react-refresh/0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}
     engines: {node: '>=0.10.0'}
@@ -1502,6 +1594,10 @@ packages:
     dependencies:
       is-number: 7.0.0
     dev: true
+
+  /tslib/1.14.1:
+    resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: false
 
   /typescript/4.6.3:
     resolution: {integrity: sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==}

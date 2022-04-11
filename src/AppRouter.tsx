@@ -12,6 +12,8 @@ const publicRoutes = {
   "/": () => <Login />,
   "/about": () => <About />,
   "/login": () => <Login />,
+  "/404": () => <div>Not Found</div>,
+  "/403": () => <div>Forbidden</div>,
 }
 
 const routes = {
@@ -19,11 +21,8 @@ const routes = {
   "/": () => <FormsList />,
   "/attempts": () => <QuizAttemptsList />,
   "/form/:id": ({ id }: { id: string }) => <FormBuilder formId={Number(id)} />,
-  "/quiz/:id": ({ id }: { id: string }) => (
-    <FromQuiz attemptId={Number(id)} questionId={0} />
-  ),
-  "/quiz/:id/:qid": ({ id, qid }: { id: string; qid: string }) => (
-    <FromQuiz attemptId={Number(id)} questionId={Number(qid)} />
+  "/quiz/:id/:qid": ({ formId, qid }: { formId: string; qid: string }) => (
+    <FromQuiz formId={Number(formId)} questionId={Number(qid)} />
   ),
   "/preview/:formId/:attemptId": ({
     formId,

@@ -27,8 +27,9 @@ export default function FormsList(props: {}) {
 
   const deleteForm = (id: number) => {
     const filteredLocalForms = forms.filter((formFilter) => formFilter.id !== id)
-    setForms(filteredLocalForms)
-    // saveForms(filteredLocalForms)
+    formApi.delete(id).then(() => {
+      setForms(filteredLocalForms)
+    })
   }
   const fetchForms = (page: PageParams) => {
     formApi.list(page).then((data) => {
@@ -97,13 +98,13 @@ export default function FormsList(props: {}) {
             >
               <ClipboardListIcon className="h-5 w-5 text-white" />
             </Link>
-            <button
+            <Link
               className="rounded-lg bg-green-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-green-700 "
-              onClick={() => {}} //attemptQuiz(form)}
+              href={`/quiz/${form.id}/0`}
               title="quiz"
             >
               <LightBulbIcon className="h-5 w-5 text-white" />
-            </button>
+            </Link>
             <button
               className="rounded-lg bg-red-500 p-2 font-bold text-white transition duration-300 ease-in-out hover:bg-red-700 "
               onClick={() => deleteForm(form.id)}

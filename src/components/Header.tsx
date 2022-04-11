@@ -1,5 +1,6 @@
 import { ActiveLink } from "raviger"
 import { ReactComponent as Logo } from "../img/logo.svg"
+import { isLoggedIn } from "../utils/apiUtils"
 
 const routes = [
   {
@@ -19,11 +20,26 @@ const routes = [
   },
 ]
 
+const publicRoutes = [
+  {
+    id: 10,
+    page: "Login",
+    url: "/",
+  },
+  {
+    id: 9,
+    page: "About",
+    url: "/about",
+  },
+]
+
+const currentHeader = isLoggedIn() ? routes : publicRoutes
+
 export default function Header() {
   return (
     <div className="mb-4 flex flex-wrap items-center gap-2">
       <Logo className="mr-4 h-10 w-10 animate-pinwheel" />
-      {routes.map((route) => (
+      {currentHeader.map((route) => (
         <ActiveLink
           key={route.id}
           href={route.url}
@@ -33,7 +49,7 @@ export default function Header() {
           {route.page}
         </ActiveLink>
       ))}
-      {localStorage.getItem("token") && localStorage.getItem("token") !== "" ? (
+      {isLoggedIn() && (
         <button
           className="rounded-full border-2 px-4 py-2 capitalize transition-colors duration-300 hover:bg-sky-600 hover:text-white"
           onClick={() => {
@@ -43,14 +59,6 @@ export default function Header() {
         >
           Logout
         </button>
-      ) : (
-        <ActiveLink
-          href="/login"
-          exactActiveClass="bg-sky-500 text-white"
-          className="rounded-full border-2 px-4 py-2 capitalize transition-colors duration-300 hover:bg-sky-600 hover:text-white"
-        >
-          Login
-        </ActiveLink>
       )}
     </div>
   )

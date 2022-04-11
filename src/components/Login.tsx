@@ -1,4 +1,3 @@
-import { navigate } from "raviger"
 import { useState } from "react"
 import { authApi } from "../helpers/api"
 import { LoginRequest } from "../types/api/request"
@@ -20,7 +19,7 @@ export default function Login() {
     event.preventDefault()
     authApi.getToken(form).then((data) => {
       localStorage.setItem("token", data.token)
-      navigate("/")
+      window.location.reload()
     })
   }
 

@@ -26,7 +26,7 @@ const formFieldTypeOptions: SelectItems[] = [
   { label: "DateTime Local", value: "datetime-local" },
   { label: "Radio Group", value: "radio" },
   { label: "Select", value: "select" },
-  { label: "Multi Select", value: "select-multiple" },
+  // { label: "Multi Select", value: "select-multiple" },
 ]
 
 export default function FormBuilder(props: { formId: number }) {

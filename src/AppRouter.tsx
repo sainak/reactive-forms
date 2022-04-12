@@ -1,30 +1,56 @@
 import { useRoutes } from "raviger"
-import About from "./components/About"
-import FormBuilder from "./components/FormBuilder"
-import FromPreview from "./components/FormPreview"
-import FromQuiz from "./components/FormQuiz"
-import FormsList from "./components/FormsList"
-import Login from "./components/Login"
-import QuizAttemptsList from "./components/QuizAttemptsList"
+import React from "react"
 import { isLoggedIn } from "./utils/apiUtils"
 
+const Login = React.lazy(() => import("./components/Login"))
+const About = React.lazy(() => import("./components/About"))
+const FormsList = React.lazy(() => import("./components/FormsList"))
+const FormBuilder = React.lazy(() => import("./components/FormBuilder"))
+const FormQuiz = React.lazy(() => import("./components/FormQuiz"))
+const FormPreview = React.lazy(() => import("./components/FormPreview"))
+const QuizAttemptsList = React.lazy(() => import("./components/QuizAttemptsList"))
+
 const publicRoutes = {
-  "/": () => <Login />,
-  "/about": () => <About />,
-  "/login": () => <Login />,
+  "/": () => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <Login />
+    </React.Suspense>
+  ),
+  "/about": () => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <About />
+    </React.Suspense>
+  ),
+  "/login": () => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <Login />
+    </React.Suspense>
+  ),
   "/404": () => <div>Not Found</div>,
   "/403": () => <div>Forbidden</div>,
 }
 
 const routes = {
   ...publicRoutes,
-  "/": () => <FormsList />,
-  "/attempts/:formId": ({ formId }: { formId: string }) => (
-    <QuizAttemptsList formId={Number(formId)} />
+  "/": () => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <FormsList />
+    </React.Suspense>
   ),
-  "/form/:id": ({ id }: { id: string }) => <FormBuilder formId={Number(id)} />,
+  "/attempts/:formId": ({ formId }: { formId: string }) => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <QuizAttemptsList formId={Number(formId)} />
+    </React.Suspense>
+  ),
+  "/form/:id": ({ id }: { id: string }) => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <FormBuilder formId={Number(id)} />
+    </React.Suspense>
+  ),
   "/quiz/:formId/:qid": ({ formId, qid }: { formId: string; qid: string }) => (
-    <FromQuiz formId={Number(formId)} questionId={Number(qid)} />
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <FormQuiz formId={Number(formId)} questionId={Number(qid)} />
+    </React.Suspense>
   ),
   "/preview/:formId/:attemptId": ({
     formId,
@@ -32,7 +58,11 @@ const routes = {
   }: {
     formId: string
     attemptId: string
-  }) => <FromPreview formId={Number(formId)} attemptId={Number(attemptId)} />,
+  }) => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <FormPreview formId={Number(formId)} attemptId={Number(attemptId)} />
+    </React.Suspense>
+  ),
 }
 
 export default function AppRouter() {

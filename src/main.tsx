@@ -6,6 +6,7 @@ import "./index.css"
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
+  environment: import.meta.env.VITE_SENTRY_ENV ?? "development",
   integrations: [new BrowserTracing()],
   tracesSampleRate: 1.0,
 })

@@ -59,7 +59,7 @@ export default function FromPreview({ formId, attemptId }: FromPreviewProps) {
           )
         })}
       </div>
-      <div className="w-full mt-8">
+      <div className="mt-8 w-full">
         <Paginator
           {...page}
           changePageCB={(offset) => {

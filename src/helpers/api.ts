@@ -14,39 +14,50 @@ import {
   SubmissionResponse,
 } from "../types/api/response"
 import fetchWrapper from "./fetchWrapper"
+import toastWrapper from "./toastWrapper"
 
 export const authApi = {
   getToken: (data: LoginRequest) => {
-    return fetchWrapper("auth-token/", "POST", data, false) as Promise<LoginResponse>
+    return toastWrapper(
+      fetchWrapper("auth-token/", "POST", data, false)
+    ) as Promise<LoginResponse>
   },
 }
 
 export const formApi = {
   list: (page: PageParams) => {
-    return fetchWrapper(`forms/`, "GET", page) as Promise<Page<FromResponse>>
+    return toastWrapper(fetchWrapper(`forms/`, "GET", page)) as Promise<
+      Page<FromResponse>
+    >
   },
   post: (data: FormRequest) => {
-    return fetchWrapper(`forms/`, "POST", data) as Promise<FromResponse>
+    return toastWrapper(fetchWrapper(`forms/`, "POST", data)) as Promise<FromResponse>
   },
   get: (formId: number) => {
-    return fetchWrapper(`forms/${formId}/`, "GET") as Promise<FromResponse>
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/`, "GET")
+    ) as Promise<FromResponse>
   },
   put: (formId: number, data: FormRequest) => {
-    return fetchWrapper(`forms/${formId}/`, "PUT", data) as Promise<FromResponse>
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/`, "PUT", data)
+    ) as Promise<FromResponse>
   },
   patch: (formId: number, data: Partial<FormRequest>) => {
-    return fetchWrapper(`forms/${formId}/`, "PATCH", data) as Promise<FromResponse>
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/`, "PATCH", data)
+    ) as Promise<FromResponse>
   },
   delete: (formId: number) => {
-    return fetchWrapper(`forms/${formId}/`, "DELETE")
+    return toastWrapper(fetchWrapper(`forms/${formId}/`, "DELETE"))
   },
 }
 
 export const formFieldApi = {
   list: (formId: number, page: PageParams) => {
-    return fetchWrapper(`forms/${formId}/fields/`, "GET", page) as Promise<
-      Page<FieldResponse>
-    >
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/fields/`, "GET", page)
+    ) as Promise<Page<FieldResponse>>
   },
   post: (formId: number, data: FieldRequest) => {
     let _data: FullFieldRequest = {
@@ -55,16 +66,13 @@ export const formFieldApi = {
       value: null,
       ...data,
     }
-    return fetchWrapper(
-      `forms/${formId}/fields/`,
-      "POST",
-      _data
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/fields/`, "POST", _data)
     ) as Promise<FieldResponse>
   },
   get: (formId: number, fieldId: number) => {
-    return fetchWrapper(
-      `forms/${formId}/fields/${fieldId}/`,
-      "GET"
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/fields/${fieldId}/`, "GET")
     ) as Promise<FieldResponse>
   },
   put: (formId: number, fieldId: number, data: FieldRequest) => {
@@ -74,10 +82,8 @@ export const formFieldApi = {
       value: null,
       ...data,
     }
-    return fetchWrapper(
-      `forms/${formId}/fields/${fieldId}/`,
-      "PUT",
-      _data
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/fields/${fieldId}/`, "PUT", _data)
     ) as Promise<FieldResponse>
   },
   patch: (formId: number, fieldId: number, data: Partial<FieldRequest>) => {
@@ -94,27 +100,24 @@ export const formFieldApi = {
     ) as Promise<FieldResponse>
   },
   delete: (formId: number, fieldId: number) => {
-    return fetchWrapper(`forms/${formId}/fields/${fieldId}/`, "DELETE")
+    return toastWrapper(fetchWrapper(`forms/${formId}/fields/${fieldId}/`, "DELETE"))
   },
 }
 
 export const submissionApi = {
   list: (formId: number, page: PageParams) => {
-    return fetchWrapper(`forms/${formId}/submission/`, "GET", page) as Promise<
-      Page<SubmissionResponse>
-    >
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/submission/`, "GET", page)
+    ) as Promise<Page<SubmissionResponse>>
   },
   post: (formId: number, data: SubmissionRequest) => {
-    return fetchWrapper(
-      `forms/${formId}/submission/`,
-      "POST",
-      data
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/submission/`, "POST", data)
     ) as Promise<SubmissionResponse>
   },
   get: (formId: number, submissionId: number) => {
-    return fetchWrapper(
-      `forms/${formId}/submission/${submissionId}/`,
-      "GET"
+    return toastWrapper(
+      fetchWrapper(`forms/${formId}/submission/${submissionId}/`, "GET")
     ) as Promise<SubmissionResponse>
   },
 }

@@ -38,8 +38,12 @@ export default async function fetchWrapper(
       return data
     })
     .catch((error) => {
-      console.error(error)
-      // TODO: parse error json and use react alerts
-      // alert(error)
+      //if error is an object, return the error message
+      if (error.message) {
+        if (error.message.includes("Failed to fetch")) {
+          error = "Unable to connect to server"
+        }
+      }
+      return Promise.reject(error)
     })
 }

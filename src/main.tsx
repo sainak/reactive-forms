@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/react"
 import { BrowserTracing } from "@sentry/tracing"
 import ReactDOM from "react-dom/client"
+import "react-toastify/dist/ReactToastify.css"
 import { registerSW } from "virtual:pwa-register"
 import App from "./App"
 import "./index.css"
